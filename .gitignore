@@ -1,0 +1,7 @@
+/build/win32
+/build/linux
+/bin/*
+!/bin/*.txt
+/.settings
+/.cproject
+/.project
