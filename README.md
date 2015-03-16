@@ -34,3 +34,6 @@ Documentation can be found under docs/ and will open in any browser.
 
 #Binaries
 Binaries can be found under lib/
+  
+#Licence
+MIT
