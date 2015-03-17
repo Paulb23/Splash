@@ -36,7 +36,7 @@
   Starts the splash framework and all libaries needed to fuctions.
 
 \-----------------------------------------------------------------------------*/
-int splash_init() {
+int8_t splash_init() {
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL 2", "FATAL: Could not start SDL 2!", NULL);
 			return -1;
@@ -64,7 +64,7 @@ int splash_init() {
   Quits the splash framework and all libaries used.
 
 \-----------------------------------------------------------------------------*/
-int splash_quit() {
+int8_t splash_quit() {
 	Mix_Quit();
 	TTF_Quit();
 	IMG_Quit();

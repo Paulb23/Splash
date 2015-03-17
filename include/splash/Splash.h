@@ -43,7 +43,7 @@ extern "C" {
   Starts the splash framework and all libaries needed to fuctions.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int SPLASHCALL splash_init();
+extern DLL_EXPORT int8_t SPLASHCALL splash_init();
 
 
 /*!--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ extern DLL_EXPORT int SPLASHCALL splash_init();
   Quits the splash framework and all libaries used.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int SPLASHCALL splash_quit();
+extern DLL_EXPORT int8_t SPLASHCALL splash_quit();
 
 
 /* end C definitions */
