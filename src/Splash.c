@@ -2,9 +2,9 @@
 /**
    @file    Splash.c
    @author  P. Batty
-   @brief   ...
+   @brief   initialise and shutdown of the framework
 
-   This module implements...
+   This module implements the initialise and shutdown of the framework
 
 */
 /*--------------------------------------------------------------------------*/

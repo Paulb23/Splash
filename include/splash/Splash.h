@@ -20,6 +20,7 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_ttf.h"
+#include "Splash_window.h"
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */

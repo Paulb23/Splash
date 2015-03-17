@@ -19,11 +19,11 @@
                             Function codes
  ---------------------------------------------------------------------------*/
 
-void init_test() {
+static void init_test() {
 	assert(splash_init() == 0 && "splash failed to initialise");
 }
 
-void shutdown_test() {
+static void shutdown_test() {
 	assert(splash_quit() == 0 && "splash failed to exit");
 }
 
