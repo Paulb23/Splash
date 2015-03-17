@@ -23,6 +23,12 @@ cmake ../
 
 #windows
 cmake -G "MinGW Makefiles" ../
+
+#build all
+make
+
+#run tests
+make test
 ```  
   
 #Examples  
