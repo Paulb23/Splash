@@ -2,7 +2,7 @@
 /**
    @file    Splash_window.h
    @author  P. Batty
-   @brief   The window structions
+   @brief   The window structs
 
    This module implements the creation and manipulations of the 
    window structure in the framework.
@@ -323,10 +323,10 @@ int8_t splash_window_get_resizable(Splash_window *window) {
 
 /*!--------------------------------------------------------------------------
   @brief    Destroy's the window
-  @param  window      The window to get
+  @param  window      The window to destroy
   @return  Void
 
-  Destroy's the window and sets its pointer to null
+  Destroy's the window
 
 \-----------------------------------------------------------------------------*/
 void splash_window_destroy(Splash_window *window) {
