@@ -1,28 +1,25 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash.h
+   @file    Splash_lua_wrapper.h
    @author  P. Batty
-   @brief   initialise and shutdown of the framework
+   @brief   The lua wrapper
 
-   This module implements the initialise and shutdown of the framework
+   This module implements the wrapper for lua
 
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_H_
-#define SPLASH_H_
+#ifndef SPLASH_LUA_WRAPPER_H_
+#define SPLASH_LUA_WRAPPER_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
-#include "Splash_window.h"
-#include "Splash_list.h"
-#include "Splash_lua_wrapper.h"
+#include "lua/lua.h"
+#include "lua/lauxlib.h"
+#include "lua/lualib.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
@@ -34,29 +31,20 @@ extern "C" {
                                 New types
  ---------------------------------------------------------------------------*/
 
+extern DLL_EXPORT lua_State *splash_lua_state; /**< Global lua state */
 
 /*---------------------------------------------------------------------------
                             Function prototypes
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Starts the splash framework
-  @return 	0 on success else -1
+  @brief    Registrars structs and functions with lua
+  @return   Void
 
-  Starts the splash framework and all libaries needed to fuctions.
-
-\-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_init();
-
-
-/*!--------------------------------------------------------------------------
-  @brief    Quits the splash framework
-  @return 	void
-
-  Quits the splash framework and all libaries used.
+  Registrars all functions and structs with lua.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_quit();
+extern void splash_lua_register_all();
 
 
 /* end C definitions */

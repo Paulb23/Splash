@@ -18,7 +18,8 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_ttf.h"
-
+#include "Splash/Splash_lua_wrapper.h"
+#include "lua/lua.h"
 
 /*---------------------------------------------------------------------------
                             Private functions
@@ -53,6 +54,10 @@ int8_t splash_init() {
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer", "FATAL: Could not start SDL Mixer!", NULL);
 			return -1;
 		}
+
+		splash_lua_state = luaL_newstate();
+		luaL_openlibs(splash_lua_state);
+		splash_lua_register_all(splash_lua_state);
  return 0;
 }
 
@@ -65,6 +70,7 @@ int8_t splash_init() {
 
 \-----------------------------------------------------------------------------*/
 int8_t splash_quit() {
+ 	lua_close(splash_lua_state);
 	Mix_Quit();
 	TTF_Quit();
 	IMG_Quit();

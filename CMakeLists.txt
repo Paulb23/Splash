@@ -31,6 +31,7 @@ SET (LIBRARY_OUTPUT_PATH "${MAINFOLDER}/lib")
 #
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${MAINFOLDER}/cmake")
 INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
+INCLUDE_DIRECTORIES("${MAINFOLDER}/thirdparty/include")
 
 #
 # Locate Project Prerequisites 

@@ -57,41 +57,26 @@ FIND_PROGRAM(LUA_EXECUTABLE
 
 # Find the lua header
 FIND_PATH(LUA_INCLUDE_DIR lua.h
-  HINTS
-  $ENV{LUA_DIR}
-  PATH_SUFFIXES ${_POSSIBLE_LUA_INCLUDE}
-  PATHS
-  ~/Library/Frameworks
-  /Library/Frameworks
-  /usr/local
-  /usr
-  /sw # Fink
-  /opt/local # DarwinPorts
-  /opt/csw # Blastwave
-  /opt
   ${MAINFOLDER}/thirdparty
 )
 
-# Find the lua library
+if (WIN32)
 FIND_LIBRARY(LUA_LIBRARY 
-  NAMES ${_POSSIBLE_LUA_LIBRARY}
-  HINTS
-  $ENV{LUA_DIR}
-  PATH_SUFFIXES lib64 lib
-  PATHS
-  ~/Library/Frameworks
-  /Library/Frameworks
-  /usr/local
-  /usr
-  /sw
-  /opt/local
-  /opt/csw
-  /opt
-  ${MAINFOLDER}/thirdparty
   ${MAINFOLDER}/thirdparty/lib/win32
+)
+endif(WIN32)
+
+if(UNIX)
+FIND_LIBRARY(LUA_LIBRARY 
   ${MAINFOLDER}/thirdparty/lib/linux
+)
+endif (UNIX)
+
+if(APPLE)
+FIND_LIBRARY(LUA_LIBRARY 
   ${MAINFOLDER}/thirdparty/macos
 )
+endif(APPLE)
 
 IF(LUA_LIBRARY)
   # include the math library for Unix

@@ -1,30 +1,23 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash.h
+   @file    l_Splash_window.h
    @author  P. Batty
-   @brief   initialise and shutdown of the framework
+   @brief   The lua window structs
 
-   This module implements the initialise and shutdown of the framework
+   This module implements the creation and manipulations of the 
+   lua window structure in the framework.
 
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_H_
-#define SPLASH_H_
+#ifndef SPLASH_WINDOW_H_
+#define SPLASH_WINDOW_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
-#include "Splash_window.h"
-#include "Splash_list.h"
-#include "Splash_lua_wrapper.h"
-
-#include "splash_begin_code.h"
+#include "splash/Splash_window.h"
 /* Set up for C definitions */
 #ifdef __cplusplus
 extern "C" {
@@ -35,28 +28,20 @@ extern "C" {
  ---------------------------------------------------------------------------*/
 
 
+
 /*---------------------------------------------------------------------------
                             Function prototypes
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Starts the splash framework
-  @return 	0 on success else -1
+  @brief    registers the window functions to lua
+  @param    the state to register to
+  @return   Void
 
-  Starts the splash framework and all libaries needed to fuctions.
-
-\-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_init();
-
-
-/*!--------------------------------------------------------------------------
-  @brief    Quits the splash framework
-  @return 	void
-
-  Quits the splash framework and all libaries used.
+  Registers the window functions to lua
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_quit();
+extern void l_splash_window_register(lua_State *l);
 
 
 /* end C definitions */
