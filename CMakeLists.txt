@@ -18,7 +18,7 @@ SET (APPLICATION_VERSION_STRING "${APPLICATION_VERSION_MAJOR}.${APPLICATION_VERS
 # Debugging Options
 #
 SET (CMAKE_VERBOSE_MAKEFILE 0) # Use 1 for debugging, 0 for release
-  
+
 #
 # Project Output Paths
 #
@@ -35,11 +35,12 @@ INCLUDE_DIRECTORIES("${MAINFOLDER}/include")
 #
 # Locate Project Prerequisites 
 #
-#find_package(SDL2 REQUIRED)
+find_package(SDL2 REQUIRED)
 find_package(SDL2_Image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR}) 
+find_package(lua REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${LUA_INCLUDE_DIR}) 
 
 #
 # Enable all warnings
