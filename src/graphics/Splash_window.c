@@ -40,7 +40,7 @@
   return a new object else null if unsuccessful
 
 \-----------------------------------------------------------------------------*/
-Splash_window *splash_window_create(char *title, int32_t width, int32_t height) {
+Splash_window *splash_window_create(const char *title, int32_t width, int32_t height) {
 	Splash_window *window = malloc(sizeof(Splash_window));
 
 	if (!window) {
@@ -70,7 +70,7 @@ Splash_window *splash_window_create(char *title, int32_t width, int32_t height) 
   Changes the title on the window to the one passed in.
 
 \-----------------------------------------------------------------------------*/
- void splash_window_set_title(Splash_window *window, char *title) {
+ void splash_window_set_title(Splash_window *window, const char *title) {
  	SDL_SetWindowTitle(window->window, title);
  	window->title = title;
  }

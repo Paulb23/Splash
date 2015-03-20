@@ -63,7 +63,7 @@ typedef struct Splash_window {
   return a new object else null if unsuccessful
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT Splash_window SPLASHCALL *splash_window_create(char *title, int32_t width, int32_t height);
+extern DLL_EXPORT Splash_window SPLASHCALL *splash_window_create(const char *title, int32_t width, int32_t height);
 
 
 /*!--------------------------------------------------------------------------
@@ -75,7 +75,7 @@ extern DLL_EXPORT Splash_window SPLASHCALL *splash_window_create(char *title, in
   Changes the title on the window to the one passed in.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT void SPLASHCALL splash_window_set_title(Splash_window *window, char *title);
+extern DLL_EXPORT void SPLASHCALL splash_window_set_title(Splash_window *window, const char *title);
 
 
 /*!--------------------------------------------------------------------------
