@@ -123,7 +123,7 @@ extern DLL_EXPORT void SPLASHCALL *splash_list_get(Splash_list *list, int32_t po
   @param  pos       The position to get
   @return  String at the position in the list, -1 if not found
 
-  Gets the string in the list as a void pointer, and -1 if the position does not
+  Gets the string in the list as a string, and -1 if the position does not
   exist
   
 \-----------------------------------------------------------------------------*/
@@ -136,7 +136,7 @@ extern DLL_EXPORT char SPLASHCALL *splash_list_get_string(Splash_list *list, int
   @param  pos       The position to get
   @return  Int at the position in the list, -1 if not found
 
-  Gets the int in the list as a void pointer, and -1 if the position does not
+  Gets the int in the list as a int, and -1 if the position does not
   exist
   
 \-----------------------------------------------------------------------------*/
@@ -149,7 +149,7 @@ extern DLL_EXPORT int SPLASHCALL splash_list_get_int(Splash_list *list, int32_t 
   @param  pos       The position to get
   @return  Float at the position in the list, -1 if not found
 
-  Gets the float in the list as a void pointer, and -1 if the position does not
+  Gets the float in the list as a float, and -1 if the position does not
   exist
   
 \-----------------------------------------------------------------------------*/
@@ -162,7 +162,7 @@ extern DLL_EXPORT float SPLASHCALL splash_list_get_float(Splash_list *list, int3
   @param  pos       The position to get
   @return  Double at the position in the list, -1 if not found
 
-  Gets the double in the list as a void pointer, and -1 if the position does not
+  Gets the double in the list as a double, and -1 if the position does not
   exist
   
 \-----------------------------------------------------------------------------*/

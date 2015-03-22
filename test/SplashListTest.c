@@ -1,6 +1,6 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    SplashTest.c
+   @file    SplashListTest.c
    @author  P. Batty
    @brief   Unit test
 	

@@ -22,6 +22,7 @@
 #include "SDL2/SDL_ttf.h"
 #include "Splash_window.h"
 #include "Splash_list.h"
+#include "Splash_hashmap.h"
 #include "Splash_lua_wrapper.h"
 
 #include "splash_begin_code.h"

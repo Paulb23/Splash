@@ -10,8 +10,8 @@
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_WINDOW_H_
-#define SPLASH_WINDOW_H_
+#ifndef L_SPLASH_WINDOW_H_
+#define L_SPLASH_WINDOW_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
