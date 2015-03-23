@@ -68,8 +68,10 @@ Splash_hashmap *splash_hashmap_create() {
 
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_add(Splash_hashmap *hashmap, const void *key, const void *value) {
+  if (dictionary_get(hashmap->map, key, (void *)-1) == (void *)-1) {
+    hashmap->size++;
+  }
 	dictionary_set(hashmap->map, key, value);
-	hashmap->size++;
 }
 
 
@@ -111,7 +113,11 @@ char *splash_hashmap_get_string(Splash_hashmap *hashmap, const void *key) {
 
 \-----------------------------------------------------------------------------*/
 int splash_hashmap_get_int(Splash_hashmap *hashmap, const void *key) {
-	return (int) splash_hashmap_get(hashmap, key);
+  void *value = splash_hashmap_get(hashmap, key);
+  if (value == (void *)-1) {
+    return -1;
+  }
+	return strtol(value, NULL, 10);
 }
 
 
@@ -125,7 +131,11 @@ int splash_hashmap_get_int(Splash_hashmap *hashmap, const void *key) {
 
 \-----------------------------------------------------------------------------*/
 float splash_hashmap_get_float(Splash_hashmap *hashmap, const void *key) {
-	return *(float *) splash_hashmap_get(hashmap, key);
+	void *value = splash_hashmap_get(hashmap, key);
+  if (value == (void *)-1) {
+    return -1;
+  }
+  return strtof(value, NULL);
 }
 
 
@@ -139,7 +149,11 @@ float splash_hashmap_get_float(Splash_hashmap *hashmap, const void *key) {
 
 \-----------------------------------------------------------------------------*/
 double splash_hashmap_get_double(Splash_hashmap *hashmap, const void *key) {
-	return *(double *) splash_hashmap_get(hashmap, key);
+	void *value = splash_hashmap_get(hashmap, key);
+  if (value == (void *)-1) {
+    return -1;
+  }
+ return strtod(value, NULL);
 }
 
 
