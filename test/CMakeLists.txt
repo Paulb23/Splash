@@ -8,6 +8,7 @@ SET( test_SRCS
 	SplashTest
 	SplashWindowTest
 	SplashListTest
+	SplashHashmapTest
 )
 
 foreach(next_ITEM ${test_SRCS})
