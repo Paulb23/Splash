@@ -9,5 +9,5 @@ TARGET_LINK_LIBRARIES(Splash ${project_LIBS})
 TARGET_LINK_LIBRARIES(Splash_static ${project_LIBS})
 
 if (WIN32)
-add_custom_command(TARGET Splash POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${MAINFOLDER}/lib/libSplash.dll  ${MAINFOLDER}/bin) 
+add_custom_command(TARGET Splash POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${MAINFOLDER}/lib/${CMAKE_SYSTEM_NAME}/libSplash.dll  ${MAINFOLDER}/bin) 
 endif(WIN32)
