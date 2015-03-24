@@ -125,6 +125,16 @@ extern DLL_EXPORT void SPLASHCALL splash_state_switch(char *state_name, void *da
 extern DLL_EXPORT void SPLASHCALL splash_state_stop();
 
 
+/*!--------------------------------------------------------------------------
+  @brief    Gets a state
+  @return   Splash_state object else NULL
+
+  Gets the splash state else returns NUILL
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_get_state(char *state_name);
+
+
 /* end C definitions */
 #ifdef __cplusplus
 }

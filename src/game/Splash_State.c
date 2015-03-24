@@ -176,13 +176,10 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
 \-----------------------------------------------------------------------------*/
 void splash_state_start(char *state_name, void *data) {
 
-    int num_states = splash_list_get_size(states);
-    int i;
-    for (i = 0; i < num_states; i++) {
-      current_state = splash_list_get(states, i);
-      if (strcmp(current_state->name, state_name) == 0) {
-        break;
-      }
+    current_state = splash_state_get_state(state_name);
+
+    if (!current_state) {
+      return;
     }
 
     current_state->init(state_name, data);
@@ -200,15 +197,10 @@ void splash_state_start(char *state_name, void *data) {
 
 \-----------------------------------------------------------------------------*/
 void splash_state_switch(char *state_name, void *data) {
-    Splash_state *next = NULL;
+    Splash_state *next = splash_state_get_state(state_name);
 
-    int num_states = splash_list_get_size(states);
-    int i;
-    for (i = 0; i < num_states; i++) {
-      next = splash_list_get(states, i);
-      if (strcmp(next->name, state_name) == 0) {
-        break;
-      }
+    if (!next) {
+      return;
     }
 
     next->init(state_name, data);
@@ -227,4 +219,26 @@ void splash_state_switch(char *state_name, void *data) {
 void splash_state_stop() {
   current_state->cleanup("");
   state_running = 0;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets a state
+  @return   Splash_state object else NULL
+
+  Gets the splash state else returns NUILL
+
+\-----------------------------------------------------------------------------*/
+Splash_state *splash_state_get_state(char *state_name) {
+    Splash_state *tmp = NULL;
+
+    int num_states = splash_list_get_size(states);
+    int i;
+    for (i = 0; i < num_states; i++) {
+      tmp = splash_list_get(states, i);
+      if (strcmp(tmp->name, state_name) == 0) {
+        break;
+      }
+    }
+  return tmp;
 }
