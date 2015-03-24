@@ -148,6 +148,16 @@ extern DLL_EXPORT void SPLASHCALL splash_state_stop();
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Set the ticks
+  @return   Void
+
+  Sets current ticks
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_set_ticks(int32_t ticks);
+
+
+/*!--------------------------------------------------------------------------
   @brief    Gets a state
   @return   Splash_state object else NULL
 

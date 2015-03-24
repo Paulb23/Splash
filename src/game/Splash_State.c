@@ -29,6 +29,7 @@ static Splash_state *current_state;   /**< the current state */
 
 static int8_t state_running;          /**< is the state machine running */
 static int32_t max_ticks;             /**< number of ticks per second */
+static double ns;                     /**< nanoseconds */
 
 static int32_t uptime;                /**< how long has it been running*/
 static int32_t state_uptime;          /**< how long have we been in this state */
@@ -46,7 +47,7 @@ static void splash_state_run() {
    SDL_Event event;
 
     long lastTime = SDL_GetTicks();
-    const double ns = 1000.0 / max_ticks;
+    ns = 1000.0 / max_ticks;
     Uint32 timer = SDL_GetTicks();
     float delta = 0;
     double fps = 0;
@@ -111,6 +112,7 @@ int8_t splash_state_init() {
   uptime = 0;
   state_uptime = 0;
   frames = 0;
+  ns = 0;
 
  return 0;
 }
@@ -244,6 +246,19 @@ void splash_state_switch(char *state_name, void *data) {
 void splash_state_stop() {
   current_state->cleanup("");
   state_running = 0;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Set the ticks
+  @return   Void
+
+  Sets current ticks
+
+\-----------------------------------------------------------------------------*/
+void splash_state_set_ticks(int32_t ticks) {
+  max_ticks = ticks;
+  ns = 1000.0 / max_ticks;
 }
 
 
