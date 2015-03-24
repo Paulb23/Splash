@@ -15,20 +15,55 @@
  ---------------------------------------------------------------------------*/
 
 #include "Splash/Splash_state.h"
+#include "Splash/Splash_list.h"
+#include "Splash/Splash_hashmap.h"
 #include <stdlib.h>
 
 /*---------------------------------------------------------------------------
                             Private functions
  ---------------------------------------------------------------------------*/
 
-
+static Splash_list *windows;
+static Splash_hashmap *window_id;
+static Splash_hashmap *states;
+static char *current_state;
 
 /*---------------------------------------------------------------------------
                             Function codes
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
+  @brief    Inits Splash state
+  @return   0 on success else -1
+
+  Inits the splash state
+
+\-----------------------------------------------------------------------------*/
+int splash_state_init() {
+  windows = splash_list_create();
+  if (windows == NULL) {
+    return -1;
+  }
+
+  window_id = splash_hashmap_create();
+  if (window_id == NULL) {
+    return -1;
+  }
+
+  states = splash_hashmap_create();
+  if (states == NULL) {
+    return -1;
+  }
+
+  current_state = NULL;
+
+ return 0;
+}
+
+
+/*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
+  @param  name    The state name
   @param  init    function that takes a char * and a void *
   @param  update  function that takes a char * and double
   @param  event   function that takes a char * and Sdl_event
@@ -44,7 +79,6 @@
     @param void *    Any data you want to pass in
 
   update
-    @param char *    The window name
     @param double    The delta time
 
   event
@@ -58,7 +92,7 @@
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-Splash_state *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(char *, double delta), void (* event)(char *, SDL_Event e), void (* render)(char *), void (* cleanup)(char *)) {
+Splash_state *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *)) {
     Splash_state *state = malloc(sizeof(Splash_state));
 
     if (!state) {
@@ -71,6 +105,8 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
     state->event = event;
     state->render = render;
     state->cleanup = cleanup;
+
+    splash_hashmap_add(states, name, state);
 
     return state;
 }

@@ -54,6 +54,10 @@ int8_t splash_init() {
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL Mixer", "FATAL: Could not start SDL Mixer!", NULL);
 			return -1;
 		}
+		if (splash_state_init() == -1) {
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Splash", "FATAL: Could not start Splash State!", NULL);
+			return -1;
+		}
 
 		splash_lua_state = luaL_newstate();
 		luaL_openlibs(splash_lua_state);

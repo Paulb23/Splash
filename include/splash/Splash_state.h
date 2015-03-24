@@ -37,7 +37,7 @@ extern "C" {
 typedef struct Splash_state {
   const char *name;                     /**< The state name */
   void (* init)(char *, void *);        /**< The states initlization function */
-  void (* update)(char *, double);      /**< The states update function */
+  void (* update)(double);              /**< The states update function */
   void (* event)(char *, SDL_Event);    /**< The states event haneler */
   void (* render)(char *);              /**< The states render function */
   void (* cleanup)(char *);             /**< The states cleanup function */
@@ -47,6 +47,16 @@ typedef struct Splash_state {
 /*---------------------------------------------------------------------------
                             Function prototypes
  ---------------------------------------------------------------------------*/
+
+/*!--------------------------------------------------------------------------
+  @brief    Inits Splash state
+  @return   0 on success else -1
+
+  Inits the splash state
+
+\-----------------------------------------------------------------------------*/
+extern int splash_state_init();
+
 
 /*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
@@ -66,7 +76,6 @@ typedef struct Splash_state {
     @param void *    Any data you want to pass in
 
   update
-    @param char *    The window name
     @param double    The delta time
 
   event
@@ -80,7 +89,7 @@ typedef struct Splash_state {
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(char *, double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *) );
+extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *) );
 
 
 /* end C definitions */
