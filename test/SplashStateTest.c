@@ -19,20 +19,35 @@
                             Function codes
  ---------------------------------------------------------------------------*/
 
-static void init(char *new_state, void *data) {}
-static void update(float delta) { printf("test \n");}
-static void events(SDL_Event e) {}
-static void render() {}
-static void cleanup(char *new_state) {}
+static void test_init(char *new_state, void *data) {}
+static void test_update(float delta) {splash_state_stop();}
+static void test_events(SDL_Event e) {}
+static void test_render() {}
+static void test_cleanup(char *new_state) {}
+
+static void the_init(char *new_state, void *data) {}
+static void the_update(float delta) {}
+static void the_events(SDL_Event e) {}
+static void the_render() {}
+static void the_cleanup(char *new_state) {}
+
+static void code_init(char *new_state, void *data) {}
+static void code_update(float delta) {}
+static void code_events(SDL_Event e) {}
+static void code_render() {}
+static void code_cleanup(char *new_state) {}
 
 
 static void test_state_creation() {
-	Splash_state *state = splash_state_create("Test state", init, update, events, render, cleanup);
+	Splash_state *state = splash_state_create("Test", test_init, test_update, test_events, test_render, test_cleanup);
 	assert(state != NULL && "Failed to create state!");
+
+	splash_state_create("The", the_init, the_update, the_events, the_render, the_cleanup);
+	splash_state_create("Code", code_init, code_update, code_events, code_render, code_cleanup);
 }
 
 static void test_state_machine() {
-	splash_state_start("Test state", NULL);
+	splash_state_start("Test", NULL);
 }
 
 int main(int argc, char *argv[]) {

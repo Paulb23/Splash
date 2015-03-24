@@ -103,6 +103,16 @@ extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name,
 extern DLL_EXPORT void SPLASHCALL splash_state_start(char *state_name, void *data);
 
 
+/*!--------------------------------------------------------------------------
+  @brief    Stops the splash state
+  @return   Void
+
+  Stops the splash state machine
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_stop();
+
+
 /* end C definitions */
 #ifdef __cplusplus
 }

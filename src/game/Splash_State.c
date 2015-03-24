@@ -188,3 +188,16 @@ void splash_state_start(char *state_name, void *data) {
     current_state->init(state_name, data);
     splash_state_run();
 }
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Stops the splash state
+  @return   Void
+
+  Stops the splash state machine
+
+\-----------------------------------------------------------------------------*/
+void splash_state_stop() {
+  current_state->cleanup("");
+  state_running = 0;
+}
