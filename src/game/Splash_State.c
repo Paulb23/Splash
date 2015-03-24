@@ -58,13 +58,14 @@
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-Splash_state *splash_state_create(void (* init)(char *, void *), void (* update)(char *, double delta), void (* event)(char *, SDL_Event e), void (* render)(char *), void (* cleanup)(char *)) {
+Splash_state *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(char *, double delta), void (* event)(char *, SDL_Event e), void (* render)(char *), void (* cleanup)(char *)) {
     Splash_state *state = malloc(sizeof(Splash_state));
 
     if (!state) {
       return NULL;
     }
 
+    state->name = name;
     state->init = init;
     state->update = update;
     state->event = event;

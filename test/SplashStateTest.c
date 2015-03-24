@@ -27,7 +27,7 @@ static void cleanup(char *new_state) {}
 
 
 static void test_state_creation() {
-	Splash_state *state = splash_state_create(init, update, events, render, cleanup);
+	Splash_state *state = splash_state_create("Test state", init, update, events, render, cleanup);
 	assert(state != NULL && "Failed to create state!");
 }
 

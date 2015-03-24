@@ -35,6 +35,7 @@ extern "C" {
   The Splash state structure.
 \----------------------------------------------------------------------------*/
 typedef struct Splash_state {
+  const char *name;                     /**< The state name */
   void (* init)(char *, void *);        /**< The states initlization function */
   void (* update)(char *, double);      /**< The states update function */
   void (* event)(char *, SDL_Event);    /**< The states event haneler */
@@ -49,6 +50,7 @@ typedef struct Splash_state {
 
 /*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
+  @param  name    The state name
   @param  init    function that takes a char * and a void *
   @param  update  function that takes a char * and double
   @param  event   function that takes a char * and Sdl_event
@@ -78,7 +80,7 @@ typedef struct Splash_state {
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(void (* init)(char *, void *), void (* update)(char *, double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *) );
+extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(char *, double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *) );
 
 
 /* end C definitions */
