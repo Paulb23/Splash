@@ -92,6 +92,28 @@ extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name,
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Adds a state to the machine
+  @param    state       The state to add
+  @return   Void
+
+  Adds a state to the machine
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_add(Splash_state *state);
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Remove a state from the machine
+  @param    state_name  The state name
+  @return   Void
+
+  Removes a state from the machine
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_remove(char *state_name);
+
+
+/*!--------------------------------------------------------------------------
   @brief    Starts the splash state
   @param    state_name  The state name to start with
   @param    data        Any data to pass in to the init

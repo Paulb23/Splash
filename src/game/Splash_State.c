@@ -159,9 +159,33 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
     state->render = render;
     state->cleanup = cleanup;
 
-    splash_list_add(states, state);
-
   return state;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Adds a state to the machine
+  @param    state       The state to add
+  @return   Void
+
+  Adds a state to the machine
+
+\-----------------------------------------------------------------------------*/
+void splash_state_add(Splash_state *state) {
+    splash_list_add(states, state);
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Remove a state from the machine
+  @param    state_name  The state name
+  @return   Void
+
+  Removes a state from the machine
+
+\-----------------------------------------------------------------------------*/
+void splash_state_remove(char *state_name) {
+  splash_list_remove(states, splash_state_get_state(state_name));
 }
 
 

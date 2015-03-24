@@ -41,9 +41,15 @@ static void code_cleanup(char *new_state) {}
 static void test_state_creation() {
 	Splash_state *state = splash_state_create("Test", test_init, test_update, test_events, test_render, test_cleanup);
 	assert(state != NULL && "Failed to create state!");
+	splash_state_add(state);
 
-	splash_state_create("The", the_init, the_update, the_events, the_render, the_cleanup);
-	splash_state_create("Code", code_init, code_update, code_events, code_render, code_cleanup);
+	state = splash_state_create("The", the_init, the_update, the_events, the_render, the_cleanup);
+	splash_state_add(state);
+	state = splash_state_create("Code", code_init, code_update, code_events, code_render, code_cleanup);
+	splash_state_add(state);
+
+	splash_state_remove("Code");
+	splash_state_add(state);
 }
 
 static void test_state_machine() {
