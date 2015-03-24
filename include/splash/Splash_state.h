@@ -129,10 +129,50 @@ extern DLL_EXPORT void SPLASHCALL splash_state_stop();
   @brief    Gets a state
   @return   Splash_state object else NULL
 
-  Gets the splash state else returns NUILL
+  Gets the splash state else returns NULL
 
 \-----------------------------------------------------------------------------*/
 extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_get_state(char *state_name);
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the state macine uptime
+  @return   Current state machine uptime
+
+  Current state machine uptime
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT int32_t SPLASHCALL splash_state_get_uptime();
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the state uptime
+  @return   Current state uptime
+
+  Current state uptime
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT int32_t SPLASHCALL splash_state_get_state_uptime();
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the fps
+  @return   Current current fps
+
+  Current current fps
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT int32_t SPLASHCALL splash_state_get_fps();
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the ticks
+  @return   Current current ticks
+
+  Current current ticks
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT int32_t SPLASHCALL splash_state_get_ticks();
 
 
 /* end C definitions */

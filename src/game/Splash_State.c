@@ -161,7 +161,7 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
 
     splash_list_add(states, state);
 
-    return state;
+  return state;
 }
 
 
@@ -206,6 +206,7 @@ void splash_state_switch(char *state_name, void *data) {
     next->init(state_name, data);
     current_state->cleanup(state_name);
     current_state = next;
+    state_uptime = 0;
 }
 
 
@@ -226,7 +227,7 @@ void splash_state_stop() {
   @brief    Gets a state
   @return   Splash_state object else NULL
 
-  Gets the splash state else returns NUILL
+  Gets the splash state else returns NULL
 
 \-----------------------------------------------------------------------------*/
 Splash_state *splash_state_get_state(char *state_name) {
@@ -241,4 +242,52 @@ Splash_state *splash_state_get_state(char *state_name) {
       }
     }
   return tmp;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the state macine uptime
+  @return   Current state machine uptime
+
+  Current state machine uptime
+
+\-----------------------------------------------------------------------------*/
+int32_t splash_state_get_uptime() {
+  return uptime;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the state uptime
+  @return   Current state uptime
+
+  Current state uptime
+
+\-----------------------------------------------------------------------------*/
+int32_t splash_state_get_state_uptime() {
+  return state_uptime;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the fps
+  @return   Current current fps
+
+  Current current fps
+
+\-----------------------------------------------------------------------------*/
+int32_t splash_state_get_fps() {
+  return frames;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the ticks
+  @return   Current current ticks
+
+  Current current ticks
+
+\-----------------------------------------------------------------------------*/
+int32_t splash_state_get_ticks() {
+  return max_ticks;
 }
