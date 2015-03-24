@@ -18,6 +18,7 @@
  ---------------------------------------------------------------------------*/
 
 #include "SDL2/SDL.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
@@ -37,9 +38,9 @@ extern "C" {
 typedef struct Splash_state {
   const char *name;                     /**< The state name */
   void (* init)(char *, void *);        /**< The states initlization function */
-  void (* update)(double);              /**< The states update function */
-  void (* event)(char *, SDL_Event);    /**< The states event haneler */
-  void (* render)(char *);              /**< The states render function */
+  void (* update)(float);               /**< The states update function */
+  void (* event)(SDL_Event);            /**< The states event haneler */
+  void (* render)();                    /**< The states render function */
   void (* cleanup)(char *);             /**< The states cleanup function */
 } Splash_state;
 
@@ -55,16 +56,16 @@ typedef struct Splash_state {
   Inits the splash state
 
 \-----------------------------------------------------------------------------*/
-extern int splash_state_init();
+extern int8_t splash_state_init();
 
 
 /*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
   @param  name    The state name
   @param  init    function that takes a char * and a void *
-  @param  update  function that takes a char * and double
-  @param  event   function that takes a char * and Sdl_event
-  @param  render  function that takes a char *
+  @param  update  function that takes a float
+  @param  event   function that takes a and Sdl_event
+  @param  render  function that takes a no args
   @param  cleanup function that takes a char *
   @return   New Splash_state otherwise NULL.
 
@@ -76,20 +77,30 @@ extern int splash_state_init();
     @param void *    Any data you want to pass in
 
   update
-    @param double    The delta time
+    @param float    The delta time
 
   event
-    @param char *    The window name
     @param Sdl_event The event
 
   render
-    @param  char *   The window name
 
   cleanup
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *) );
+extern DLL_EXPORT Splash_state SPLASHCALL *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(float), void (* event)(SDL_Event), void (* render)(), void (* cleanup)(char *) );
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Starts the splash state
+  @param    state_name  The state name to start with
+  @param    data        Any data to pass in to the init
+  @return   Void
+
+  Starts the splash state machine
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_start(char *state_name, void *data);
 
 
 /* end C definitions */

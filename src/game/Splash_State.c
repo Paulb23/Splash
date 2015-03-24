@@ -18,19 +18,79 @@
 #include "Splash/Splash_list.h"
 #include "Splash/Splash_hashmap.h"
 #include <stdlib.h>
+#include <stdint.h>
 
 /*---------------------------------------------------------------------------
                             Private functions
  ---------------------------------------------------------------------------*/
 
-static Splash_list *windows;
-static Splash_hashmap *window_id;
-static Splash_hashmap *states;
-static char *current_state;
+static Splash_list *states;           /**< list if states */
+static Splash_state *current_state;   /**< the current state */
+
+static int8_t state_running;          /**< is the state machine running */
+static int32_t max_ticks;             /**< number of ticks per second */
+
+static int32_t uptime;                /**< how long has it been running*/
+static int32_t state_uptime;          /**< how long have we been in this state */
+static int32_t frames;                /**< our fps */
+
+
+/*!--------------------------------------------------------------------------
+  @brief    The state machine
+  @return   Void
+
+  The state machine 
+
+\-----------------------------------------------------------------------------*/
+static void splash_state_run() {
+   SDL_Event event;
+
+    long lastTime = SDL_GetTicks();
+    const double ns = 1000.0 / max_ticks;
+    Uint32 timer = SDL_GetTicks();
+    float delta = 0;
+    double fps = 0;
+    double tick = 0;
+    uptime = 0;
+    state_uptime = 0;
+
+    state_running = 1;
+    while (state_running) {
+        Uint32 now = SDL_GetTicks();
+        delta += (now - lastTime) / ns;
+        lastTime = now;
+
+        while (delta >= 1) {
+
+            current_state->update(delta);
+
+            while(SDL_PollEvent(&event)) {
+              current_state->event(event);
+            }
+
+          tick++;
+          delta--;
+        }
+        fps++;
+
+        current_state->render();
+
+        if (SDL_GetTicks() - timer > 1000) {
+          timer += 1000;
+          uptime++;
+          state_uptime++;
+          frames = fps;
+          fps = 0;
+          tick = 0;
+        }
+    }
+}
+
 
 /*---------------------------------------------------------------------------
                             Function codes
  ---------------------------------------------------------------------------*/
+
 
 /*!--------------------------------------------------------------------------
   @brief    Inits Splash state
@@ -39,23 +99,18 @@ static char *current_state;
   Inits the splash state
 
 \-----------------------------------------------------------------------------*/
-int splash_state_init() {
-  windows = splash_list_create();
-  if (windows == NULL) {
-    return -1;
-  }
-
-  window_id = splash_hashmap_create();
-  if (window_id == NULL) {
-    return -1;
-  }
-
-  states = splash_hashmap_create();
+int8_t splash_state_init() {
+  states = splash_list_create();
   if (states == NULL) {
     return -1;
   }
 
-  current_state = NULL;
+  state_running = 0;
+  max_ticks = 60;
+
+  uptime = 0;
+  state_uptime = 0;
+  frames = 0;
 
  return 0;
 }
@@ -65,9 +120,9 @@ int splash_state_init() {
   @brief    Creates a new Splash state
   @param  name    The state name
   @param  init    function that takes a char * and a void *
-  @param  update  function that takes a char * and double
-  @param  event   function that takes a char * and Sdl_event
-  @param  render  function that takes a char *
+  @param  update  function that takes a float
+  @param  event   function that takes a Sdl_event
+  @param  render  function that takes a no args
   @param  cleanup function that takes a char *
   @return   New Splash_state otherwise NULL.
 
@@ -79,20 +134,18 @@ int splash_state_init() {
     @param void *    Any data you want to pass in
 
   update
-    @param double    The delta time
+    @param float    The delta time
 
   event
-    @param char *    The window name
     @param Sdl_event The event
 
   render
-    @param  char *   The window name
 
   cleanup
     @param  char *   The state that we are switiching to
 
 \-----------------------------------------------------------------------------*/
-Splash_state *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(double), void (* event)(char *, SDL_Event), void (* render)(char *), void (* cleanup)(char *)) {
+Splash_state *splash_state_create(const char *name, void (* init)(char *, void *), void (* update)(float), void (* event)(SDL_Event), void (* render)(), void (* cleanup)(char *)) {
     Splash_state *state = malloc(sizeof(Splash_state));
 
     if (!state) {
@@ -106,7 +159,32 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
     state->render = render;
     state->cleanup = cleanup;
 
-    splash_hashmap_add(states, name, state);
+    splash_list_add(states, state);
 
     return state;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Starts the splash state
+  @param    state_name  The state name to start with
+  @param    data        Any data to pass in to the init
+  @return   Void
+
+  Starts the splash state machine
+
+\-----------------------------------------------------------------------------*/
+void splash_state_start(char *state_name, void *data) {
+
+    int num_states = splash_list_get_size(states);
+    int i;
+    for (i = 0; i < num_states; i++) {
+      current_state = splash_list_get(states, i);
+      if (strcmp(current_state->name, state_name) == 0) {
+        break;
+      }
+    }
+
+    current_state->init(state_name, data);
+    splash_state_run();
 }
