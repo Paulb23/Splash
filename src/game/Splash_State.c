@@ -191,6 +191,33 @@ void splash_state_start(char *state_name, void *data) {
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Switchs the current state
+  @param    state_name  The state name to switch to
+  @param    data        Any data to pass in to the init
+  @return   Void
+
+  Switches the state machine
+
+\-----------------------------------------------------------------------------*/
+void splash_state_switch(char *state_name, void *data) {
+    Splash_state *next = NULL;
+
+    int num_states = splash_list_get_size(states);
+    int i;
+    for (i = 0; i < num_states; i++) {
+      next = splash_list_get(states, i);
+      if (strcmp(next->name, state_name) == 0) {
+        break;
+      }
+    }
+
+    next->init(state_name, data);
+    current_state->cleanup(state_name);
+    current_state = next;
+}
+
+
+/*!--------------------------------------------------------------------------
   @brief    Stops the splash state
   @return   Void
 

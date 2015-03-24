@@ -20,19 +20,19 @@
  ---------------------------------------------------------------------------*/
 
 static void test_init(char *new_state, void *data) {}
-static void test_update(float delta) {splash_state_stop();}
+static void test_update(float delta) {splash_state_switch("The", NULL);}
 static void test_events(SDL_Event e) {}
 static void test_render() {}
 static void test_cleanup(char *new_state) {}
 
 static void the_init(char *new_state, void *data) {}
-static void the_update(float delta) {}
+static void the_update(float delta) {splash_state_switch("Code", NULL);}
 static void the_events(SDL_Event e) {}
 static void the_render() {}
 static void the_cleanup(char *new_state) {}
 
 static void code_init(char *new_state, void *data) {}
-static void code_update(float delta) {}
+static void code_update(float delta) {splash_state_stop();}
 static void code_events(SDL_Event e) {}
 static void code_render() {}
 static void code_cleanup(char *new_state) {}

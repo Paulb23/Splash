@@ -104,6 +104,18 @@ extern DLL_EXPORT void SPLASHCALL splash_state_start(char *state_name, void *dat
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Switchs the current state
+  @param    state_name  The state name to switch to
+  @param    data        Any data to pass in to the init
+  @return   Void
+
+  Switches the state machine
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_state_switch(char *state_name, void *data);
+
+
+/*!--------------------------------------------------------------------------
   @brief    Stops the splash state
   @return   Void
 
