@@ -16,7 +16,6 @@
 #include <assert.h>
 #include <stdlib.h>
     
-static Splash_hashmap *hashmap;
 static char *string = "This is another super long string much like the one in my window test to see wheather the linked list can accuraly store and very long string properly but hey at least it sais somthing \
 						diffrent right? !£$%^&*()_+¬`{}@~:<>?/.,#';][/*-+|¦ see thats me encoding a secret message in side the string to make this more intresting for myself (half life 3 confmed?) ahhhhhhh how \
 						much long do you think i should make this string before it become accetplble for a test after tests are the way forward just not when i have to write super long strings .. laura ipsen?";
@@ -30,12 +29,13 @@ typedef struct Object {
  ---------------------------------------------------------------------------*/
 
 static void hashmap_create() {
-	hashmap = splash_hashmap_create();
+	Splash_hashmap *hashmap = splash_hashmap_create();
 	assert(hashmap != NULL && "Error creatng hashmap");
 }
 
 
 static void hashmap_test_strings() {
+	Splash_hashmap *hashmap = splash_hashmap_create();
 	splash_hashmap_add(hashmap, "key", "value");
 	splash_hashmap_add(hashmap, "key", "newValue");
 	splash_hashmap_add(hashmap, "other", string);
@@ -47,11 +47,11 @@ static void hashmap_test_strings() {
 
 	assert(splash_hashmap_get_string(hashmap, "key") == (void *)-1 && "Failed remove string");
 
-	splash_hashmap_remove_all(hashmap);
 } 
 
 
 static void hashmap_test_numbers() {
+	Splash_hashmap *hashmap = splash_hashmap_create();
 	splash_hashmap_add(hashmap, "key",  "8");
 	splash_hashmap_add(hashmap, "key", "16");
 
@@ -69,11 +69,11 @@ static void hashmap_test_numbers() {
 
 	 assert(splash_hashmap_get_int(hashmap, "key") == -1 && "Failed to remove int");
 
-	splash_hashmap_remove_all(hashmap);
 }
 
 
 static void hashmap_test_objects() {
+	Splash_hashmap *hashmap = splash_hashmap_create();
 	Object *o = malloc(sizeof(Object));
 	o->data = 18;
 	splash_hashmap_add(hashmap,"key", o);
@@ -81,10 +81,10 @@ static void hashmap_test_objects() {
 	Object *o1 = splash_hashmap_get(hashmap, "key");
 	assert(o1->data == 18 && "Failed to get object data");
 
-	splash_hashmap_remove_all(hashmap);
 }
 
 static void hashmap_test_size() {
+	Splash_hashmap *hashmap = splash_hashmap_create();
 	assert(splash_hashmap_get_size(hashmap) == 0 && "Failed to remove all");
 	splash_hashmap_add(hashmap, "key", "item");
 
@@ -102,9 +102,6 @@ static void hashmap_test_size() {
 
 	splash_hashmap_remove(hashmap, "key");
 	assert(splash_hashmap_get_size(hashmap) == 3 && "Failed to calculate size");
-
-	splash_hashmap_remove_all(hashmap);
-	assert(splash_hashmap_get_size(hashmap) == 0 && "Failed to calculate size");
 }
 
 
@@ -117,6 +114,5 @@ int main(int argc, char *argv[]) {
 		hashmap_test_objects();
 		hashmap_test_size();
 
-	splash_hashmap_destory(hashmap);
  return 0;
 }

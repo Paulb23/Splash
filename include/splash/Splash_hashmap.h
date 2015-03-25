@@ -143,17 +143,6 @@ extern DLL_EXPORT void SPLASHCALL splash_hashmap_remove(Splash_hashmap *hashmap,
 
 
 /*!--------------------------------------------------------------------------
-  @brief    Removes everything in the hashmap
-  @param  hashmap      The hashmap to empty
-  @return  Void
-
-  Empties the hashmap.
-  
-\-----------------------------------------------------------------------------*/
-extern DLL_EXPORT void SPLASHCALL splash_hashmap_remove_all(Splash_hashmap *hashmap);
-
-
-/*!--------------------------------------------------------------------------
   @brief    Gets the size of the hashmap
   @param  list      The list to count
   @return  Size of the hashmap

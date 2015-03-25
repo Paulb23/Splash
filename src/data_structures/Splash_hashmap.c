@@ -176,21 +176,6 @@ void splash_hashmap_remove(Splash_hashmap *hashmap, const void *key) {
 
 
 /*!--------------------------------------------------------------------------
-  @brief    Removes everything in the hashmap
-  @param  hashmap      The hashmap to empty
-  @return  Void
-
-  Empties the hashmap.
-  
-\-----------------------------------------------------------------------------*/
-void splash_hashmap_remove_all(Splash_hashmap *hashmap) {
-	dictionary_del(hashmap->map);
-  hashmap->map = dictionary_new(0);
-  hashmap->size = 0;
-}
-
-
-/*!--------------------------------------------------------------------------
   @brief    Gets the size of the hashmap
   @param  list      The list to count
   @return  Size of the hashmap
