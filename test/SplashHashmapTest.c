@@ -21,6 +21,10 @@ static char *string = "This is another super long string much like the one in my
 						diffrent right? !£$%^&*()_+¬`{}@~:<>?/.,#';][/*-+|¦ see thats me encoding a secret message in side the string to make this more intresting for myself (half life 3 confmed?) ahhhhhhh how \
 						much long do you think i should make this string before it become accetplble for a test after tests are the way forward just not when i have to write super long strings .. laura ipsen?";
 
+typedef struct Object {
+	int data;
+} Object;
+
 /*---------------------------------------------------------------------------
                             Function codes
  ---------------------------------------------------------------------------*/
@@ -68,6 +72,18 @@ static void hashmap_test_numbers() {
 	splash_hashmap_remove_all(hashmap);
 }
 
+
+static void hashmap_test_objects() {
+	Object *o = malloc(sizeof(Object));
+	o->data = 18;
+	splash_hashmap_add(hashmap,"key", o);
+
+	Object *o1 = splash_hashmap_get(hashmap, "key");
+	assert(o1->data == 18 && "Failed to get object data");
+
+	splash_hashmap_remove_all(hashmap);
+}
+
 static void hashmap_test_size() {
 	assert(splash_hashmap_get_size(hashmap) == 0 && "Failed to remove all");
 	splash_hashmap_add(hashmap, "key", "item");
@@ -98,6 +114,7 @@ int main(int argc, char *argv[]) {
 
 		hashmap_test_strings();
 		hashmap_test_numbers();
+		hashmap_test_objects();
 		hashmap_test_size();
 
 	splash_hashmap_destory(hashmap);

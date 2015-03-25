@@ -184,7 +184,9 @@ void splash_hashmap_remove(Splash_hashmap *hashmap, const void *key) {
   
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_remove_all(Splash_hashmap *hashmap) {
-	hashmap->size = 0;
+	dictionary_del(hashmap->map);
+  hashmap->map = dictionary_new(0);
+  hashmap->size = 0;
 }
 
 

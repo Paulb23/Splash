@@ -18,6 +18,7 @@
  ---------------------------------------------------------------------------*/
 
 #include "../src/ect/dictionary.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
