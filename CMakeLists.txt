@@ -40,8 +40,22 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_Image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
-find_package(lua REQUIRED)
 find_package(glew REQUIRED)
+
+set (LUA_INCLUDE_DIR ${MAINFOLDER}/thirdparty/include/lua)
+
+if (WIN32)
+set (LUA_LIBRARIES ${MAINFOLDER}/thirdparty/lib/win32/liblua52.a)
+endif(WIN32)
+
+if (UNIX)
+set (LUA_LIBRARIES ${MAINFOLDER}/thirdparty/lib/linux/liblua52.a)
+endif(UNIX)
+
+if (APPLE)
+set (LUA_LIBRARIES ${MAINFOLDER}/thirdparty/lib/macos/liblua52.a)
+endif(APPLE)
+
 include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${GLEW_INCLUDE_DIR}  ${LUA_INCLUDE_DIR}) 
 
 #
