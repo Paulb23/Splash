@@ -38,4 +38,5 @@ lua_State *splash_lua_state; /**< Global lua state */
 \-----------------------------------------------------------------------------*/
 void splash_lua_register_all(lua_State *l) {
 	l_splash_window_register(l);
+  l_splash_state_register(l);
 }

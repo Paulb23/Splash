@@ -63,5 +63,10 @@ int main(int argc, char *argv[]) {
 		test_state_machine();
 	
 	splash_quit();
+	splash_init();
+		if(luaL_dofile(splash_lua_state, "../scripts/test/state_test.lua")){
+			printf("Could not load file: %s\n", lua_tostring(splash_lua_state, -1));
+		}
+	splash_quit();
   return 0;
 }

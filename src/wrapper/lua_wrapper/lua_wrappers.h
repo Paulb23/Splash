@@ -14,3 +14,4 @@
  ---------------------------------------------------------------------------*/
                                 
 #include "graphics/l_splash_window.h"
+#include "game/l_splash_state.h"

@@ -36,12 +36,18 @@ extern "C" {
   The Splash state structure.
 \----------------------------------------------------------------------------*/
 typedef struct Splash_state {
-  char *name;                     /**< The state name */
+  char *name;                           /**< The state name */
   void (* init)(char *, void *);        /**< The states initlization function */
   void (* update)(float);               /**< The states update function */
   void (* event)(SDL_Event);            /**< The states event haneler */
   void (* render)();                    /**< The states render function */
   void (* cleanup)(char *);             /**< The states cleanup function */
+  int lua;                              /**< is it a lua callback? */
+  int l_init;                           /**< lua init refrance */
+  int l_update;                         /**< lua update refrance */
+  int l_event;                          /**< lua event refrance */
+  int l_render;                         /**< lua render refrance */
+  int l_cleanup;                        /**< lua cleanup refrance */
 } Splash_state;
 
 

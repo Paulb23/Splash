@@ -16,6 +16,8 @@
 
 #include "Splash/Splash_state.h"
 #include "Splash/Splash_hashmap.h"
+#include "lua/lua.h"
+#include "../wrapper/lua_wrapper/game/l_splash_state.h"
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -62,10 +64,18 @@ static void splash_state_run() {
 
         while (delta >= 1) {
 
-            current_state->update(delta);
+            if (current_state->lua) {
+                l_splash_state_call_update(current_state, delta);
+            } else {
+              current_state->update(delta);
+            }
 
             while(SDL_PollEvent(&event)) {
-              current_state->event(event);
+              if (current_state->lua) {
+                  l_splash_state_call_event(current_state, event);
+              } else {
+                  current_state->event(event);
+              }
             }
 
           tick++;
@@ -73,7 +83,11 @@ static void splash_state_run() {
         }
         fps++;
 
-        current_state->render();
+        if (current_state->lua) {
+            l_splash_state_call_render(current_state);
+        } else {
+           current_state->render();
+        }
 
         if (SDL_GetTicks() - timer > 1000) {
           timer += 1000;
@@ -154,6 +168,7 @@ Splash_state *splash_state_create(char *name, void (* init)(char *, void *), voi
     }
 
     state->name = name;
+    state->lua = 0;
     state->init = init;
     state->update = update;
     state->event = event;
@@ -207,7 +222,11 @@ void splash_state_start(char *state_name, void *data) {
       return;
     }
 
-    current_state->init(state_name, data);
+    if (current_state->lua) {
+        l_splash_state_call_init(current_state, state_name, data);
+    } else {
+        current_state->init(state_name, data);
+    }
     splash_state_run();
 }
 
@@ -228,8 +247,18 @@ void splash_state_switch(char *state_name, void *data) {
       return;
     }
 
-    next->init(state_name, data);
-    current_state->cleanup(state_name);
+    if (next->lua) {
+        l_splash_state_call_init(next, state_name, data);
+    } else {
+        next->init(state_name, data);
+    }
+
+    if (current_state->lua) {
+        l_splash_state_call_cleanup(current_state, state_name);
+    } else {
+        current_state->cleanup(state_name);
+    }
+
     current_state = next;
     state_uptime = 0;
 }
@@ -243,7 +272,11 @@ void splash_state_switch(char *state_name, void *data) {
 
 \-----------------------------------------------------------------------------*/
 void splash_state_stop() {
-  current_state->cleanup("");
+  if (current_state->lua) {
+    l_splash_state_call_cleanup(current_state, "");
+  } else {
+    current_state->cleanup("");
+  }
   state_running = 0;
 }
 
