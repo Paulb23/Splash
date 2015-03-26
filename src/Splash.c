@@ -18,6 +18,7 @@
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_ttf.h"
+#include "GL/glew.h"
 #include "Splash/Splash_lua_wrapper.h"
 #include "lua/lua.h"
 
@@ -25,6 +26,7 @@
                             Private functions
  ---------------------------------------------------------------------------*/
 
+static int8_t init = 0; /**< have we already started ther libary */
 
 /*---------------------------------------------------------------------------
                             Function codes
@@ -38,6 +40,7 @@
 
 \-----------------------------------------------------------------------------*/
 int8_t splash_init() {
+	if (!init) {
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL 2", "FATAL: Could not start SDL 2!", NULL);
 			return -1;
@@ -59,9 +62,33 @@ int8_t splash_init() {
 			return -1;
 		}
 
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+   		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+   		SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+   		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+   		// create fake context for glew init
+   		SDL_Window *fake_window = SDL_CreateWindow("Fake window", 0, 0, 0, 0, SDL_WINDOW_OPENGL | SDL_WINDOW_HIDDEN); 
+		SDL_GLContext fake_context = SDL_GL_CreateContext(fake_window);
+
+   		glewExperimental = 1;
+   		GLenum err = glewInit();
+		if (err != GLEW_OK) {
+			printf("Error: %s \n", glewGetErrorString(err));
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Glew", "FATAL: Could not start Glew!", NULL);
+			return -1;
+		}
+
+		// destoy fake context
+		SDL_GL_DeleteContext(fake_context);
+		SDL_DestroyWindow(fake_window);
+
 		splash_lua_state = luaL_newstate();
 		luaL_openlibs(splash_lua_state);
 		splash_lua_register_all(splash_lua_state);
+
+	 init = 1;
+	}
  return 0;
 }
 
@@ -79,5 +106,7 @@ int8_t splash_quit() {
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
+
+	init = 0;
  return 0;
 }
