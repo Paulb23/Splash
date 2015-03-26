@@ -41,7 +41,8 @@ find_package(SDL2_Image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(lua REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${LUA_INCLUDE_DIR}) 
+find_package(glew REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${GLEW_INCLUDE_DIR}  ${LUA_INCLUDE_DIR}) 
 
 #
 # Enable all warnings
