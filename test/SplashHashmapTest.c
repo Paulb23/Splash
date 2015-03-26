@@ -39,7 +39,7 @@ static void hashmap_test_strings() {
 	splash_hashmap_add(hashmap, "key", "value");
 	splash_hashmap_add(hashmap, "key", "newValue");
 	splash_hashmap_add(hashmap, "other", string);
-	printf("what");
+
 	assert(strcmp(splash_hashmap_get_string(hashmap, "key"), "newValue") == 0 && "Failed override string");
 	assert(strcmp(splash_hashmap_get_string(hashmap, "other"), string) == 0 && "Failed to get string");
 
@@ -80,7 +80,6 @@ static void hashmap_test_objects() {
 
 	Object *o1 = splash_hashmap_get(hashmap, "key");
 	assert(o1->data == 18 && "Failed to get object data");
-
 }
 
 static void hashmap_test_size() {

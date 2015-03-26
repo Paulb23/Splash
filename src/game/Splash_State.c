@@ -15,7 +15,6 @@
  ---------------------------------------------------------------------------*/
 
 #include "Splash/Splash_state.h"
-#include "Splash/Splash_list.h"
 #include "Splash/Splash_hashmap.h"
 #include <stdlib.h>
 #include <stdint.h>
@@ -24,7 +23,7 @@
                             Private functions
  ---------------------------------------------------------------------------*/
 
-static Splash_list *states;           /**< list if states */
+static Splash_hashmap *states;        /**< hashmap if states */
 static Splash_state *current_state;   /**< the current state */
 
 static int8_t state_running;          /**< is the state machine running */
@@ -101,7 +100,7 @@ static void splash_state_run() {
 
 \-----------------------------------------------------------------------------*/
 int8_t splash_state_init() {
-  states = splash_list_create();
+  states = splash_hashmap_create();
   if (states == NULL) {
     return -1;
   }
@@ -174,7 +173,7 @@ Splash_state *splash_state_create(const char *name, void (* init)(char *, void *
 
 \-----------------------------------------------------------------------------*/
 void splash_state_add(Splash_state *state) {
-    splash_list_add(states, state);
+    splash_hashmap_add(states, state->name, state);
 }
 
 
@@ -187,7 +186,7 @@ void splash_state_add(Splash_state *state) {
 
 \-----------------------------------------------------------------------------*/
 void splash_state_remove(char *state_name) {
-  splash_list_remove(states, splash_state_get_state(state_name));
+  splash_hashmap_remove(states, state_name);
 }
 
 
@@ -202,9 +201,9 @@ void splash_state_remove(char *state_name) {
 \-----------------------------------------------------------------------------*/
 void splash_state_start(char *state_name, void *data) {
 
-    current_state = splash_state_get_state(state_name);
+    current_state = splash_hashmap_get(states, state_name);
 
-    if (!current_state) {
+    if (current_state == (void *)-1) {
       return;
     }
 
@@ -223,9 +222,9 @@ void splash_state_start(char *state_name, void *data) {
 
 \-----------------------------------------------------------------------------*/
 void splash_state_switch(char *state_name, void *data) {
-    Splash_state *next = splash_state_get_state(state_name);
+    Splash_state *next = splash_hashmap_get(states, state_name);
 
-    if (!next) {
+    if (next == (void *)-1) {
       return;
     }
 
@@ -270,17 +269,7 @@ void splash_state_set_ticks(int32_t ticks) {
 
 \-----------------------------------------------------------------------------*/
 Splash_state *splash_state_get_state(char *state_name) {
-    Splash_state *tmp = NULL;
-
-    int num_states = splash_list_get_size(states);
-    int i;
-    for (i = 0; i < num_states; i++) {
-      tmp = splash_list_get(states, i);
-      if (strcmp(tmp->name, state_name) == 0) {
-        break;
-      }
-    }
-  return tmp;
+  return splash_hashmap_get(states, state_name);
 }
 
 
