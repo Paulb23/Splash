@@ -10,6 +10,7 @@ A Cross platform C game framework. Built with SDL2 and OpenGL.
 * [SDL2_image](https://www.libsdl.org/projects/SDL_image/)  
 * [SDL2_mixer](http://www.libsdl.org/projects/SDL_mixer/)  
 * [SDL2_ttf](http://www.libsdl.org/projects/SDL_ttf/)    
+* [GLEW](http://glew.sourceforge.net/)    
   
 #Bulding from source
 
