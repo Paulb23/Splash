@@ -39,7 +39,7 @@ static void hashmap_test_strings() {
 	splash_hashmap_add(hashmap, "key", "value");
 	splash_hashmap_add(hashmap, "key", "newValue");
 	splash_hashmap_add(hashmap, "other", string);
-
+	printf("what");
 	assert(strcmp(splash_hashmap_get_string(hashmap, "key"), "newValue") == 0 && "Failed override string");
 	assert(strcmp(splash_hashmap_get_string(hashmap, "other"), string) == 0 && "Failed to get string");
 

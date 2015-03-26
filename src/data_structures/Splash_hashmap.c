@@ -17,13 +17,94 @@
 #include "Splash/Splash_hashmap.h"
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 /*---------------------------------------------------------------------------
                             Private functions
  ---------------------------------------------------------------------------*/
 
+/*!--------------------------------------------------------------------------
+  @brief    Creates a new hashmap element
+  @return   New hashmap element
 
+  Creates a new hashmap element
+
+\-----------------------------------------------------------------------------*/
+static struct _Splash_hashmap_element_ *create_element(void *key, void *value) {
+  struct _Splash_hashmap_element_ *element = malloc(sizeof(struct _Splash_hashmap_element_));
+  element->key = key;
+  element->value = value;
+  return element;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Hashing function
+  @return   Hash
+
+  Hashes
+
+\-----------------------------------------------------------------------------*/
+static int hash(void * key, int size) {
+    char *p = key;
+    int len = strlen(p);
+    int h = 0;
+    int g;
+    int i;
+
+    for (i = 0; i < len; i++) {
+        h = (h << 4) + p[i];
+        g = h & 0xf0000000L;
+
+        if (g != 0) {
+            h ^= g >> 24;
+        }
+
+        h &= ~g;
+    }
+
+    return h % size;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Re-Hashing function
+  @return   Void
+
+  Re-Hashes
+
+\-----------------------------------------------------------------------------*/
+static void rehash(Splash_hashmap * hm) {
+  struct _Splash_hashmap_element_ ** current;
+  struct _Splash_hashmap_element_ ** buckets;
+
+  struct _Splash_hashmap_element_ * item;
+  struct _Splash_hashmap_element_ * next;
+  size_t s;
+  size_t size;
+  int i;
+  int index;
+
+  current = hm->buckets;
+  s = hm->size;
+  size = s << 1;
+
+  buckets = calloc(size, sizeof(struct _Splash_hashmap_element_));
+
+  for (i = 0; i < s; i++) {
+    for (item = current[i]; item != NULL; item = next) {
+      index = hash(item->key, size);
+      next = item->next;
+      item->next = buckets[index];
+      buckets[index] = item;
+    }
+  }
+
+  free(hm->buckets);
+  hm->buckets = buckets;
+  hm->size = size;
+}
 
 /*---------------------------------------------------------------------------
                             Function codes
@@ -44,14 +125,14 @@ Splash_hashmap *splash_hashmap_create() {
 		return NULL;
 	}
 
-	hashmap->map = dictionary_new(0);
+	hashmap->buckets = calloc(256, sizeof(struct _Splash_hashmap_element_ *));
 
-	if (!hashmap->map) {
-		free(hashmap);
+	if (!hashmap->buckets) {
 		return NULL;
 	}
 
-	hashmap->size = 0;
+  hashmap->size = 256;
+	hashmap->count = 0;
 
  return hashmap;
 }
@@ -67,11 +148,27 @@ Splash_hashmap *splash_hashmap_create() {
   Adds the data passed in to the key inside the hashmap
 
 \-----------------------------------------------------------------------------*/
-void splash_hashmap_add(Splash_hashmap *hashmap, const void *key, const void *value) {
-  if (dictionary_get(hashmap->map, key, (void *)-1) == (void *)-1) {
-    hashmap->size++;
+void splash_hashmap_add(Splash_hashmap *hashmap, void *key, void *value) {
+  struct _Splash_hashmap_element_ * item;
+  struct _Splash_hashmap_element_ ** p;
+  int index = hash(key, hashmap->size);
+
+  p = &(hashmap->buckets[index]);
+
+  for (item = *p; item != NULL; item = item->next) {
+    if (item->key == key) {/* key already exists */
+      item->value = value;
+      return;
+    }
   }
-	dictionary_set(hashmap->map, key, value);
+
+  item = *p;
+  (*p) = create_element(key, value);
+  (*p)->next = item;
+
+  if (++hashmap->count >= hashmap->size * 3 / 4) {
+    rehash(hashmap);
+  }
 }
 
 
@@ -84,8 +181,17 @@ void splash_hashmap_add(Splash_hashmap *hashmap, const void *key, const void *va
   Returns the value at the given location. NOTE: DOES NOTE CAST TO A TYPE.
 
 \-----------------------------------------------------------------------------*/
-void *splash_hashmap_get(Splash_hashmap *hashmap, const void *key) {
-	return dictionary_get(hashmap->map, key, (void *)-1);
+void *splash_hashmap_get(Splash_hashmap *hashmap, void *key) {
+	int index = hash(key, hashmap->size);
+  struct _Splash_hashmap_element_ *item;
+
+  for (item = hashmap->buckets[index]; item != NULL; item = item->next) {
+    if (item->key == key) {
+      return item->value;
+    }
+  }
+
+  return (void *)-1;
 }
 
 
@@ -98,7 +204,7 @@ void *splash_hashmap_get(Splash_hashmap *hashmap, const void *key) {
   Returns the value at the given location as a string.
 
 \-----------------------------------------------------------------------------*/
-char *splash_hashmap_get_string(Splash_hashmap *hashmap, const void *key) {
+char *splash_hashmap_get_string(Splash_hashmap *hashmap, void *key) {
 	return (char *) splash_hashmap_get(hashmap, key);
 }
 
@@ -112,7 +218,7 @@ char *splash_hashmap_get_string(Splash_hashmap *hashmap, const void *key) {
   Returns the value at the given location as a int.
 
 \-----------------------------------------------------------------------------*/
-int splash_hashmap_get_int(Splash_hashmap *hashmap, const void *key) {
+int splash_hashmap_get_int(Splash_hashmap *hashmap, void *key) {
   void *value = splash_hashmap_get(hashmap, key);
   if (value == (void *)-1) {
     return -1;
@@ -130,7 +236,7 @@ int splash_hashmap_get_int(Splash_hashmap *hashmap, const void *key) {
   Returns the value at the given location as a float.
 
 \-----------------------------------------------------------------------------*/
-float splash_hashmap_get_float(Splash_hashmap *hashmap, const void *key) {
+float splash_hashmap_get_float(Splash_hashmap *hashmap, void *key) {
 	void *value = splash_hashmap_get(hashmap, key);
   if (value == (void *)-1) {
     return -1;
@@ -148,7 +254,7 @@ float splash_hashmap_get_float(Splash_hashmap *hashmap, const void *key) {
   Returns the value at the given location as a double.
 
 \-----------------------------------------------------------------------------*/
-double splash_hashmap_get_double(Splash_hashmap *hashmap, const void *key) {
+double splash_hashmap_get_double(Splash_hashmap *hashmap, void *key) {
 	void *value = splash_hashmap_get(hashmap, key);
   if (value == (void *)-1) {
     return -1;
@@ -166,12 +272,33 @@ double splash_hashmap_get_double(Splash_hashmap *hashmap, const void *key) {
   remove the value in the SSL_Hashmap.
 
 \-----------------------------------------------------------------------------*/
-void splash_hashmap_remove(Splash_hashmap *hashmap, const void *key) {
-	dictionary_unset(hashmap->map, key);
+void splash_hashmap_remove(Splash_hashmap *hashmap, void *key) {
+  int index = hash(key, hashmap->size);
+  struct _Splash_hashmap_element_ * item;
+  struct _Splash_hashmap_element_ * next;
 
-	if (hashmap->size != 0) {
-		hashmap->size--;
-	}
+  item = hashmap->buckets[index];
+
+  if (item == NULL)
+    return;
+
+  if (item->next == NULL) {
+    free(item);
+    hashmap->buckets[index] = NULL;
+    hashmap->count--;
+    return;
+  }
+
+  while (item != NULL) {
+    next = item->next;
+    if (next != NULL && next->key == key) {
+      item->next = next->next;
+      hashmap->count--;
+      free(next);
+      return;
+    }
+    item = next;
+  }
 }
 
 
@@ -184,7 +311,7 @@ void splash_hashmap_remove(Splash_hashmap *hashmap, const void *key) {
   
 \-----------------------------------------------------------------------------*/
 int32_t splash_hashmap_get_size(Splash_hashmap *hashmap) {
-  return hashmap->size;
+  return hashmap->count;
 }
 
 
@@ -197,5 +324,18 @@ int32_t splash_hashmap_get_size(Splash_hashmap *hashmap) {
   
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_destory(Splash_hashmap *hashmap) {
-	dictionary_del(hashmap->map);
+  int i;
+  struct _Splash_hashmap_element_ * item;
+  struct _Splash_hashmap_element_ *  next;
+
+  for (i = 0; i < hashmap->size; i++) {
+    for (item = hashmap->buckets[i]; item != NULL;) {
+      next = item->next;
+      free(item);
+      item = next;
+    }
+  }
+
+  free(hashmap->buckets);
+  free(hashmap);
 }

@@ -17,7 +17,6 @@
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "dictionary.h"
 #include <stdint.h>
 
 #include "splash_begin_code.h"
@@ -30,15 +29,29 @@ extern "C" {
                                 New types
  ---------------------------------------------------------------------------*/
 
+
+/*!--------------------------------------------------------------------------
+  @brief    Splash_hashmap_element
+
+  hashmap element 
+\----------------------------------------------------------------------------*/
+struct _Splash_hashmap_element_ {
+  void *key;
+  void *value;
+  struct _Splash_hashmap_element_ *next;
+} _Splash_hashmap_element_ ;
+
+
 /*!--------------------------------------------------------------------------
   @brief    Splash_hashmap
 
-  Basic hashmap implementation using a dictionary
+  Basic hashmap implementation
 
 \----------------------------------------------------------------------------*/
 typedef struct Splash_hashmap {
-  dictionary *map;
   int32_t size;
+  int32_t count;
+  struct _Splash_hashmap_element_ **buckets;
 } Splash_hashmap;
 
 
@@ -67,7 +80,7 @@ extern DLL_EXPORT Splash_hashmap SPLASHCALL *splash_hashmap_create();
   Adds the data passed in to the key inside the hashmap
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT void SPLASHCALL splash_hashmap_add(Splash_hashmap *hashmap, const void *key, const void *value);
+extern DLL_EXPORT void SPLASHCALL splash_hashmap_add(Splash_hashmap *hashmap, void *key, void *value);
 
 
 /*!--------------------------------------------------------------------------
@@ -79,7 +92,7 @@ extern DLL_EXPORT void SPLASHCALL splash_hashmap_add(Splash_hashmap *hashmap, co
   Returns the value at the given location. NOTE: DOES NOTE CAST TO A TYPE.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT void SPLASHCALL *splash_hashmap_get(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT void SPLASHCALL *splash_hashmap_get(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
@@ -91,7 +104,7 @@ extern DLL_EXPORT void SPLASHCALL *splash_hashmap_get(Splash_hashmap *hashmap, c
   Returns the value at the given location as a string.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT char SPLASHCALL *splash_hashmap_get_string(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT char SPLASHCALL *splash_hashmap_get_string(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
@@ -103,7 +116,7 @@ extern DLL_EXPORT char SPLASHCALL *splash_hashmap_get_string(Splash_hashmap *has
   Returns the value at the given location as a int.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int SPLASHCALL splash_hashmap_get_int(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT int SPLASHCALL splash_hashmap_get_int(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
@@ -115,7 +128,7 @@ extern DLL_EXPORT int SPLASHCALL splash_hashmap_get_int(Splash_hashmap *hashmap,
   Returns the value at the given location as a float.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT float SPLASHCALL splash_hashmap_get_float(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT float SPLASHCALL splash_hashmap_get_float(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
@@ -127,7 +140,7 @@ extern DLL_EXPORT float SPLASHCALL splash_hashmap_get_float(Splash_hashmap *hash
   Returns the value at the given location as a double.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT double SPLASHCALL splash_hashmap_get_double(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT double SPLASHCALL splash_hashmap_get_double(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
@@ -139,7 +152,7 @@ extern DLL_EXPORT double SPLASHCALL splash_hashmap_get_double(Splash_hashmap *ha
   remove the value in the SSL_Hashmap.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT void SPLASHCALL splash_hashmap_remove(Splash_hashmap *hashmap, const void *key);
+extern DLL_EXPORT void SPLASHCALL splash_hashmap_remove(Splash_hashmap *hashmap, void *key);
 
 
 /*!--------------------------------------------------------------------------
