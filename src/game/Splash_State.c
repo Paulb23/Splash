@@ -132,6 +132,25 @@ int8_t splash_state_init() {
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Quits Splash state
+  @return   Void
+
+  Quits the splash state
+
+\-----------------------------------------------------------------------------*/
+void splash_state_quit() {
+  splash_hashmap_destory(states);
+  state_running = 0;
+  max_ticks = 60;
+
+  uptime = 0;
+  state_uptime = 0;
+  frames = 0;
+  ns = 0;
+}
+
+
+/*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
   @param  name    The state name
   @param  init    function that takes a char * and a void *

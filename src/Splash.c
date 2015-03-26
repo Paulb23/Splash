@@ -101,6 +101,7 @@ int8_t splash_init() {
 
 \-----------------------------------------------------------------------------*/
 int8_t splash_quit() {
+	splash_state_quit();
  	lua_close(splash_lua_state);
 	Mix_Quit();
 	TTF_Quit();

@@ -66,6 +66,16 @@ extern int8_t splash_state_init();
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Quits Splash state
+  @return   Void
+
+  Quits the splash state
+
+\-----------------------------------------------------------------------------*/
+extern void splash_state_quit();
+
+
+/*!--------------------------------------------------------------------------
   @brief    Creates a new Splash state
   @param  name    The state name
   @param  init    function that takes a char * and a void *
