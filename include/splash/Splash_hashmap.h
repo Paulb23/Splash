@@ -36,9 +36,9 @@ extern "C" {
   hashmap element 
 \----------------------------------------------------------------------------*/
 struct _Splash_hashmap_element_ {
-  void *key;
-  void *value;
-  struct _Splash_hashmap_element_ *next;
+  void *key;                              /**< the key */
+  void *value;                            /**<* The value */
+  struct _Splash_hashmap_element_ *next;  /**< The collision list */
 } _Splash_hashmap_element_ ;
 
 
@@ -49,9 +49,9 @@ struct _Splash_hashmap_element_ {
 
 \----------------------------------------------------------------------------*/
 typedef struct Splash_hashmap {
-  int32_t size;
-  int32_t count;
-  struct _Splash_hashmap_element_ **buckets;
+  int32_t size;                               /**< size of the hashmap */
+  int32_t count;                              /**< number of elements*/
+  struct _Splash_hashmap_element_ **buckets;  /**< the buckets */
 } Splash_hashmap;
 
 

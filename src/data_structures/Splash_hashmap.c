@@ -49,22 +49,22 @@ static struct _Splash_hashmap_element_ *create_element(void *key, void *value) {
 static int hash(void * key, int size) {
     char *p = key;
     int len = strlen(p);
-    int h = 0;
+    int hash = 0;
     int g;
     int i;
 
     for (i = 0; i < len; i++) {
-        h = (h << 4) + p[i];
-        g = h & 0xf0000000L;
+        hash = (hash << 4) + p[i];
+        g = hash & 0xf0000000L;
 
         if (g != 0) {
-            h ^= g >> 24;
+            hash ^= g >> 24;
         }
 
-        h &= ~g;
+        hash &= ~g;
     }
 
-    return h % size;
+  return hash % size;
 }
 
 
@@ -75,19 +75,19 @@ static int hash(void * key, int size) {
   Re-Hashes
 
 \-----------------------------------------------------------------------------*/
-static void rehash(Splash_hashmap * hm) {
-  struct _Splash_hashmap_element_ ** current;
-  struct _Splash_hashmap_element_ ** buckets;
+static void rehash(Splash_hashmap * hashmap) {
+  struct _Splash_hashmap_element_ **current;
+  struct _Splash_hashmap_element_ **buckets;
 
-  struct _Splash_hashmap_element_ * item;
-  struct _Splash_hashmap_element_ * next;
+  struct _Splash_hashmap_element_ *item;
+  struct _Splash_hashmap_element_ *next;
   size_t s;
   size_t size;
   int i;
   int index;
 
-  current = hm->buckets;
-  s = hm->size;
+  current = hashmap->buckets;
+  s = hashmap->size;
   size = s << 1;
 
   buckets = calloc(size, sizeof(struct _Splash_hashmap_element_));
@@ -101,9 +101,9 @@ static void rehash(Splash_hashmap * hm) {
     }
   }
 
-  free(hm->buckets);
-  hm->buckets = buckets;
-  hm->size = size;
+  free(hashmap->buckets);
+  hashmap->buckets = buckets;
+  hashmap->size = size;
 }
 
 /*---------------------------------------------------------------------------
@@ -149,8 +149,8 @@ Splash_hashmap *splash_hashmap_create() {
 
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_add(Splash_hashmap *hashmap, void *key, void *value) {
-  struct _Splash_hashmap_element_ * item;
-  struct _Splash_hashmap_element_ ** p;
+  struct _Splash_hashmap_element_ *item;
+  struct _Splash_hashmap_element_ **p;
   int index = hash(key, hashmap->size);
 
   p = &(hashmap->buckets[index]);
@@ -274,8 +274,8 @@ double splash_hashmap_get_double(Splash_hashmap *hashmap, void *key) {
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_remove(Splash_hashmap *hashmap, void *key) {
   int index = hash(key, hashmap->size);
-  struct _Splash_hashmap_element_ * item;
-  struct _Splash_hashmap_element_ * next;
+  struct _Splash_hashmap_element_ *item;
+  struct _Splash_hashmap_element_ *next;
 
   item = hashmap->buckets[index];
 
@@ -325,8 +325,8 @@ int32_t splash_hashmap_get_size(Splash_hashmap *hashmap) {
 \-----------------------------------------------------------------------------*/
 void splash_hashmap_destory(Splash_hashmap *hashmap) {
   int i;
-  struct _Splash_hashmap_element_ * item;
-  struct _Splash_hashmap_element_ *  next;
+  struct _Splash_hashmap_element_ *item;
+  struct _Splash_hashmap_element_ *next;
 
   for (i = 0; i < hashmap->size; i++) {
     for (item = hashmap->buckets[i]; item != NULL;) {
