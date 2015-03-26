@@ -37,10 +37,11 @@ extern "C" {
 \----------------------------------------------------------------------------*/
 typedef struct Splash_window {
   SDL_Window *window;         /**< The SDL window */
+  SDL_GLContext context;      /**< The window gl context */
   SDL_Point position;         /**< The x,y of the window */
   SDL_Point size;             /**< The w,h of the window */
   char *title;                /**< The title on the window */
-  float brightness;            /**< The brightness of the window*/
+  float brightness;           /**< The brightness of the window*/
   int8_t fullscreen;          /**< are we fullscreen */
   int8_t borderless;          /**< are we borderless */
   int8_t visible;             /**< are we visible */

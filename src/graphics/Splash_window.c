@@ -56,6 +56,7 @@ Splash_window *splash_window_create(const char *title, int32_t width, int32_t he
 
 	splash_window_set_title(window, title);
 	splash_window_set_size(window, width, height);
+  window->context = SDL_GL_CreateContext(window->window);
 
 	return window;
 }
