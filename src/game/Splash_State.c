@@ -71,6 +71,10 @@ static void splash_state_run() {
             }
 
             while(SDL_PollEvent(&event)) {
+              if (event.type == SDL_QUIT) {
+                splash_state_stop();
+              }
+
               if (current_state->lua) {
                   l_splash_state_call_event(current_state, event);
               } else {
