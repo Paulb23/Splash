@@ -1,43 +1,50 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash_lua_wrapper.h
+   @file    l_splash_renderer.h
    @author  P. Batty
-   @brief   The lua wrapper
+   @brief   The renderer
 
-   This module implements the wrapper for lua
+   This module implements the renderer lua bindings
 
 */
 /*--------------------------------------------------------------------------*/
+
+#ifndef L_SPLASH_RENDERER_H_
+#define L_SPLASH_RENDERER_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "Splash/Splash_lua_wrapper.h"
-#include "lua_wrapper/lua_wrappers.h"
-#include "lua/lua.h"
-
+#include "splash/Splash_renderer.h"
+/* Set up for C definitions */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*---------------------------------------------------------------------------
-                            Private functions
+                                New types
  ---------------------------------------------------------------------------*/
 
-lua_State *splash_lua_state; /**< Global lua state */
+
 
 /*---------------------------------------------------------------------------
-                            Function codes
+                            Function prototypes
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Registrars structs and functions with lua
+  @brief    registers the renderer functions to lua
   @param    the state to register to
   @return   Void
 
-  Registrars all functions and structs with lua.
+  Registers the renderer functions to lua
 
 \-----------------------------------------------------------------------------*/
-void splash_lua_register_all(lua_State *l) {
-	l_splash_window_register(l);
-  l_splash_state_register(l);
-  l_splash_renderer_register(l);
+extern void l_splash_renderer_register(lua_State *l);
+
+
+/* end C definitions */
+#ifdef __cplusplus
 }
+#endif
+#endif
