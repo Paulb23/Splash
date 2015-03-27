@@ -40,6 +40,7 @@ typedef struct Splash_window {
   SDL_GLContext context;      /**< The window gl context */
   SDL_Point position;         /**< The x,y of the window */
   SDL_Point size;             /**< The w,h of the window */
+  SDL_Point resolution;       /**< The screen resolution */
   char *title;                /**< The title on the window */
   float brightness;           /**< The brightness of the window*/
   int8_t fullscreen;          /**< are we fullscreen */
@@ -117,6 +118,19 @@ extern DLL_EXPORT void SPLASHCALL splash_window_set_position(Splash_window *wind
 
 \-----------------------------------------------------------------------------*/
 extern DLL_EXPORT void SPLASHCALL splash_window_set_size(Splash_window *window, int32_t width, int32_t height);
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Sets the window size
+  @param  window  The window to modify
+  @param  width   The width of the resolution
+  @param  hight   The height of the resolution
+  @return  Void
+
+  Changes the windows resolution to the size passed in.
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_window_set_resolution(Splash_window *window, int32_t width, int32_t height);
 
 
 /*!--------------------------------------------------------------------------
@@ -213,6 +227,17 @@ extern DLL_EXPORT SDL_Point SPLASHCALL splash_window_get_position(Splash_window 
 
 \-----------------------------------------------------------------------------*/
 extern DLL_EXPORT SDL_Point SPLASHCALL splash_window_get_size(Splash_window *window);
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the window size
+  @param  window      The window to get
+  @return  The window resolution inside a point
+
+  Gets the current window resolution
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT SDL_Point SPLASHCALL splash_window_get_resolution(Splash_window *window);
 
 
 /*!--------------------------------------------------------------------------

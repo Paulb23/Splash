@@ -56,6 +56,7 @@ Splash_window *splash_window_create(const char *title, int32_t width, int32_t he
 
 	splash_window_set_title(window, title);
 	splash_window_set_size(window, width, height);
+  splash_window_set_resolution(window, width, height);
   window->context = SDL_GL_CreateContext(window->window);
 
 	return window;
@@ -125,6 +126,22 @@ void splash_window_set_size(Splash_window *window, int32_t width, int32_t height
 	window->size.x = abs(width);
 	window->size.y = abs(height);
 	SDL_SetWindowSize(window->window, window->size.x, window->size.y);
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Sets the window size
+  @param  window  The window to modify
+  @param  width   The width of the resolution
+  @param  hight   The height of the resolution
+  @return  Void
+
+  Changes the windows resolution to the size passed in.
+
+\-----------------------------------------------------------------------------*/
+void splash_window_set_resolution(Splash_window *window, int32_t width, int32_t height) {
+  window->resolution.x = width;
+  window->resolution.y = height;
 }
 
 
@@ -267,6 +284,19 @@ SDL_Point splash_window_get_position(Splash_window *window) {
 \-----------------------------------------------------------------------------*/
 SDL_Point splash_window_get_size(Splash_window *window) {
 	return window->size;
+}
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Gets the window size
+  @param  window      The window to get
+  @return  The window resolution inside a point
+
+  Gets the current window resolution
+
+\-----------------------------------------------------------------------------*/
+SDL_Point splash_window_get_resolution(Splash_window *window) {
+  return window->resolution;
 }
 
 

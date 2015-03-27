@@ -116,6 +116,13 @@ static void window_settings_test() {
 
 	//splash_window_set_fullscreen(window, 0);
 	//assert(window->fullscreen == 0 &&  "Failed to go windowed");
+	SDL_Point res = splash_window_get_resolution(window);
+	assert(res.x == 800 && res.y == 600 && "Failed to get resolution");
+
+	splash_window_set_resolution(window, 200, 400);
+
+	res = splash_window_get_resolution(window);
+	assert(res.x == 200 && res.y == 400 && "Failed to get resolution");
 
 	splash_window_set_borderless(window, 1);
 	assert(window->borderless == 1 &&  "Failed to go borderless");

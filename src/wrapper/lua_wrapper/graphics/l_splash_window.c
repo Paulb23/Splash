@@ -194,6 +194,41 @@ static int l_splash_window_set_size(lua_State *l) {
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Sets the window size
+  @param  window  The window to modify
+  @param  width   The width of the resolution
+  @param  hight   The height of the resolution
+  @return  Void
+
+  Changes the windows resolution to the size passed in.
+
+\-----------------------------------------------------------------------------*/
+static int l_splash_window_set_resolution(lua_State *l) {
+  int argc = lua_gettop(l);
+  if (argc != 3) {
+    luaL_error (l, "Invalid argument count got %d expected 3\n", argc);
+  } 
+
+  if (!lua_isuserdata(l,1)) {
+    luaL_error (l, "Invalid argument 'window' should be a user data of type splash.window\n");
+  }
+  if (!lua_isnumber(l,2)) {
+    luaL_error (l, "Invalid argument 'width' should be a number\n");
+  }
+  if (!lua_isnumber(l,3)) {
+    luaL_error (l, "Invalid argument 'height' should be a number\n");
+  }
+
+  Splash_window *window = lua_touserdata(l, 1);
+  int32_t width = luaL_checkint(l, 2);
+  int32_t height = luaL_checkint(l, 3);
+
+  splash_window_set_resolution(window, width, height);
+ return 0;
+}
+
+
+/*!--------------------------------------------------------------------------
   @brief    Sets the window fullscreen
   @param  window      The window to modify
   @param  fullscreen  Should we go fullscreen
@@ -436,6 +471,39 @@ static int l_splash_window_get_size(lua_State *l) {
 
 
 /*!--------------------------------------------------------------------------
+  @brief    Gets the window size
+  @param  window      The window to get
+  @return  The window resolution inside a point
+
+  Gets the current window resolution
+
+\-----------------------------------------------------------------------------*/
+static int l_splash_window_get_resolution(lua_State *l) {
+  int argc = lua_gettop(l);
+  if (argc != 1) {
+    luaL_error (l, "Invalid argument count got %d expected 1\n", argc);
+  } 
+
+  if (!lua_isuserdata(l,1)) {
+    luaL_error (l, "Invalid argument 'window' should be a user data of type splash.window\n");
+  }
+
+  Splash_window *window = lua_touserdata(l, 1);
+
+  SDL_Point point = splash_window_get_resolution(window);
+    lua_createtable(l, 0 , 2);
+
+    lua_pushnumber(l, point.x);
+    lua_setfield(l, -2, "w");
+    
+    lua_pushnumber(l, point.y);
+    lua_setfield(l, -2, "h");
+    
+ return 1;
+}
+
+
+/*!--------------------------------------------------------------------------
   @brief    Is the window fullscreen
   @param  window      The window to get
   @return  1 if fullscreen else 0
@@ -583,6 +651,7 @@ void l_splash_window_register(lua_State *l) {
     {"setBrightness", l_splash_window_set_brightness},
     {"setPosition", l_splash_window_set_position},
     {"setSize", l_splash_window_set_size},
+    {"setResolution", l_splash_window_set_resolution},
     {"setFullscreen", l_splash_window_set_fullscreen},
     {"setBorderless", l_splash_window_set_borderless},
     {"setVisible", l_splash_window_set_visible},
@@ -591,6 +660,7 @@ void l_splash_window_register(lua_State *l) {
     {"getBrightness", l_splash_window_get_brightness},
     {"getPosition", l_splash_window_get_position},
     {"getSize", l_splash_window_get_size},
+    {"getResolution", l_splash_window_get_resolution},
     {"getFullscreen", l_splash_window_get_fullscreen},
     {"getBorderless", l_splash_window_get_borderless},
     {"getVisible", l_splash_window_get_visible},
