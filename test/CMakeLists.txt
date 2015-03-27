@@ -2,7 +2,13 @@ enable_testing()
 INCLUDE(CTest)
 
 LINK_DIRECTORIES(${MAINFOLDER}/lib)
-SET (test_LIBS ${SDL2_LIBRARY} ${SDL2IMAGE_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2MIXER_LIBRARY} ${LUA_LIBRARIES} ${GLEW_LIBRARY} ${PROJECT_NAME} m)
+
+set(OPENGL "")
+if(WIN32)
+	set(OPENGL "opengl32")
+endif(WIN32)
+
+SET (test_LIBS ${SDL2_LIBRARY} ${SDL2IMAGE_LIBRARY} ${SDL2TTF_LIBRARY} ${SDL2MIXER_LIBRARY} ${LUA_LIBRARIES} ${GLEW_LIBRARY} ${OPENGL} ${PROJECT_NAME} m)
 
 SET( test_SRCS
 	SplashTest
@@ -10,6 +16,7 @@ SET( test_SRCS
 	SplashListTest
 	SplashHashmapTest
 	SplashStateTest
+	SplashRendererTest
 )
 
 foreach(next_ITEM ${test_SRCS})

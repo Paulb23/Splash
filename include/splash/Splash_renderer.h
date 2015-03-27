@@ -1,33 +1,23 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash.h
+   @file    Splash_renderer.h
    @author  P. Batty
-   @brief   initialise and shutdown of the framework
+   @brief   The renderer
 
-   This module implements the initialise and shutdown of the framework
+   This module implements the renderer
 
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_H_
-#define SPLASH_H_
+#ifndef SPLASH_RENDERER_H_
+#define SPLASH_RENDERER_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
 #include "Splash_window.h"
-#include "Splash_list.h"
-#include "Splash_hashmap.h"
-#include "Splash_state.h"
-#include "Splash_renderer.h"
-
-                                
-#include "Splash_lua_wrapper.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
@@ -45,23 +35,17 @@ extern "C" {
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Starts the splash framework
-  @return 	0 on success else -1
+  @brief    Clears the window
+  @param	window	the window to clear
+  @param	red		red value ( 0- 255 )
+  @param	green	green value ( 0- 255 )
+  @param	blue	blue value ( 0- 255 )
+  @return 	Void
 
-  Starts the splash framework and all libaries needed to fuctions.
-
-\-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_init();
-
-
-/*!--------------------------------------------------------------------------
-  @brief    Quits the splash framework
-  @return 	void
-
-  Quits the splash framework and all libaries used.
+  Clears the window with the colors provided
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_quit();
+extern DLL_EXPORT void SPLASHCALL splash_renderer_clear(Splash_window *window, int16_t red, int16_t green, int16_t blue);
 
 
 /* end C definitions */
