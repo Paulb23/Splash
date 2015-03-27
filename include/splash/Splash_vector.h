@@ -1,34 +1,22 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash.h
+   @file    Splash_vector.h
    @author  P. Batty
-   @brief   initialise and shutdown of the framework
+   @brief   Vector objects
 
-   This module implements the initialise and shutdown of the framework
+   This module implements the vector objects
 
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_H_
-#define SPLASH_H_
+#ifndef SPLASH_VECTOR_H_
+#define SPLASH_VECTOR_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_ttf.h"
-#include "Splash_window.h"
-#include "Splash_list.h"
-#include "Splash_hashmap.h"
-#include "Splash_state.h"
-#include "Splash_renderer.h"
-#include "Splash_vector.h"
-
-                                
-#include "Splash_lua_wrapper.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
@@ -40,29 +28,31 @@ extern "C" {
                                 New types
  ---------------------------------------------------------------------------*/
 
+/*!--------------------------------------------------------------------------
+  @brief    Splash_vector3
+
+  The Splash vector3 structure.
+\----------------------------------------------------------------------------*/
+typedef struct Splash_vector3 {
+  double x; /**< The x in the vector*/
+  double y; /**< The y in the vector*/
+  double z; /**< The z in the vector*/
+} Splash_vector3;
+
 
 /*---------------------------------------------------------------------------
                             Function prototypes
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Starts the splash framework
-  @return 	0 on success else -1
+  @brief    Creates a Splash_vector3
+  @return 	returns a Splash_vector3
 
-  Starts the splash framework and all libaries needed to fuctions.
-
-\-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_init();
-
-
-/*!--------------------------------------------------------------------------
-  @brief    Quits the splash framework
-  @return 	void
-
-  Quits the splash framework and all libaries used.
+  Creates and returns a Splash_vector3
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_quit();
+extern DLL_EXPORT Splash_vector3 SPLASHCALL splash_vector3_create(double x, double y, double z);
+
 
 
 /* end C definitions */

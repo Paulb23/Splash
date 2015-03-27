@@ -21,6 +21,6 @@ function cleanup(state)
 
 end
 
-local state = splash_state.create("Test State", init, update, events, render, cleanup)
-splash_state.add(state)
-splash_state.start("Test State", "")
+--local state = splash_state.create("Test State", init, update, events, render, cleanup)
+--splash_state.add(state)
+--splash_state.start("Test State", "")
