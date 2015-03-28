@@ -34,9 +34,9 @@ extern "C" {
   The Splash vector3 structure.
 \----------------------------------------------------------------------------*/
 typedef struct Splash_vector3 {
-  double x; /**< The x in the vector*/
-  double y; /**< The y in the vector*/
-  double z; /**< The z in the vector*/
+  double x; /**< The x in the vector */
+  double y; /**< The y in the vector */
+  double z; /**< The z in the vector */
 } Splash_vector3;
 
 

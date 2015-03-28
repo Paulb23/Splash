@@ -39,6 +39,7 @@
 
 \-----------------------------------------------------------------------------*/
 void splash_renderer_clear(Splash_window *window, int16_t red, int16_t green, int16_t blue) {
+    SDL_GL_MakeCurrent(window->window, window->context);
     glClearColor( (float)red / 255, (float)green / 255, (float)blue / 255, 1.0f );
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     SDL_GL_SwapWindow(window->window);
