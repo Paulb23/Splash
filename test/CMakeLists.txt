@@ -17,6 +17,7 @@ SET( test_SRCS
 	SplashHashmapTest
 	SplashStateTest
 	SplashRendererTest
+	SplashCamreaTest
 )
 
 foreach(next_ITEM ${test_SRCS})

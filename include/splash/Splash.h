@@ -26,6 +26,7 @@
 #include "Splash_state.h"
 #include "Splash_renderer.h"
 #include "Splash_vector.h"
+#include "Splash_camera.h"
 
                                 
 #include "Splash_lua_wrapper.h"
