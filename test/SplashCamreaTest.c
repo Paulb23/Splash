@@ -44,11 +44,25 @@ static void test_camrea_translation() {
 			assert(camera->rotation.x == 0 && camera->rotation.y == 0 && camera->rotation.z == 0 && "Failed to set rotation");
 }
 
+static void test_camrea_getters() {
+			Splash_vector3 pos = splash_camera_get_position(camera);
+			assert(pos.x == 0 && pos.y == 0 && pos.z == 0 && "Failed to get camera postion");
+
+			Splash_vector3 rot = splash_camera_get_rotation(camera);
+			assert(rot.x == 0 && rot.y == 0 && rot.z == 0 && "Failed to get camera postion");
+
+			Splash_vector3 size = splash_camera_get_size(camera);
+			assert(size.x == 800 && size.y == 600 && "Failed to get camera postion");
+
+			assert(splash_camera_get_zoom(camera) == 0 && "Failed to get camera size");
+}
+
 int main(int argc, char *argv[]) {
 
 			test_camrea_creation();
 			test_camrea_set();
 			test_camrea_translation();
+			test_camrea_getters();
 
 			splash_init();
 				if(luaL_dofile(splash_lua_state, "../scripts/test/camera_test.lua")){
