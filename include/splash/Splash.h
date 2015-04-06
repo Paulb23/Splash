@@ -28,6 +28,7 @@
 #include "Splash_vector.h"
 #include "Splash_camera.h"
 #include "Splash_vertex.h"
+#include "Splash_glyph.h"
 
                                 
 #include "Splash_lua_wrapper.h"
@@ -54,7 +55,7 @@ extern "C" {
   Starts the splash framework and all libaries needed to fuctions.
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT int8_t SPLASHCALL splash_init();
+extern DLL_EXPORT int8_t SPLASHCALL splash_init();  
 
 
 /*!--------------------------------------------------------------------------
