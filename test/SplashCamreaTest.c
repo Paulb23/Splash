@@ -50,6 +50,12 @@ int main(int argc, char *argv[]) {
 			test_camrea_set();
 			test_camrea_translation();
 
+			splash_init();
+				if(luaL_dofile(splash_lua_state, "../scripts/test/camera_test.lua")){
+					printf("Could not load file: %s\n", lua_tostring(splash_lua_state, -1));
+				}
+			splash_quit();
+
 		splash_camera_destroy(camera);
 	return 0;
 }

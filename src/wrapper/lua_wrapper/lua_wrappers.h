@@ -15,4 +15,5 @@
                                 
 #include "graphics/l_splash_window.h"
 #include "graphics/l_splash_renderer.h"
+#include "graphics/l_splash_camera.h"
 #include "game/l_splash_state.h"
