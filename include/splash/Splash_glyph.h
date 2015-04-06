@@ -35,13 +35,13 @@ extern "C" {
   The Splash glyph structure.
 \----------------------------------------------------------------------------*/
 typedef struct Splash_glyph {
-  SDL_Color color;
-  float depth;
+  SDL_Color color;            /**<  The color of the glyph */
+  float depth;                /**< The depth of the glyph */
 
-  Splash_vertex topLeft;
-  Splash_vertex topRight;
-  Splash_vertex bottomLeft;
-  Splash_vertex bottomRight;
+  Splash_vertex topLeft;      /**< The top left of the info about the glyph */
+  Splash_vertex topRight;     /**< The top right of the info about the glyph */
+  Splash_vertex bottomLeft;   /**< The bottom left of the info about the glyph */
+  Splash_vertex bottomRight;  /**< The bottom right of the info about the glyph */
 } Splash_glyph;
 
 
