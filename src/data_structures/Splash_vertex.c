@@ -37,6 +37,6 @@
   Creates and returns a Splash_vertex
 
 \-----------------------------------------------------------------------------*/
-Splash_vertex SPLASHCALL splash_vertex_create(SDL_Color color, Splash_vector2 pos, Splash_vector2 uv) {
-  return (Splash_vertex) {color, pos, uv};
+Splash_vertex splash_vertex_create(SDL_Color color, Splash_vector2 pos, Splash_vector2 uv) {
+  return ( Splash_vertex ) { color, pos, uv };
 }
