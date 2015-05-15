@@ -27,8 +27,7 @@
 #include "Splash_renderer.h"
 #include "Splash_vector.h"
 #include "Splash_camera.h"
-#include "Splash_vertex.h"
-#include "Splash_glyph.h"
+#include "Splash_texture.h"
 
                                 
 #include "Splash_lua_wrapper.h"

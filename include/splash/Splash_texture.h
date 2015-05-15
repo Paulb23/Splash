@@ -1,23 +1,24 @@
 /*-------------------------------------------------------------------------*/
 /**
-   @file    Splash_vertex.h
+   @file    Splash_texture.h
    @author  P. Batty
-   @brief   OpenGL vertex object
+   @brief   The texture structs
 
-   This module implements the openGL vertex object
+   This module implements the creation and manipulations of the 
+   texture structs in the framework.
 
 */
 /*--------------------------------------------------------------------------*/
 
-#ifndef SPLASH_VERTEX_H_
-#define SPLASH_VERTEX_H_
+#ifndef SPLASH_TEXTURE_H_
+#define SPLASH_TEXTURE_H_
 
 /*---------------------------------------------------------------------------
                                 Includes
  ---------------------------------------------------------------------------*/
 
-#include "SDL2/SDL.h"
-#include "Splash_vector.h"
+#include "GL/glew.h"
+#include <stdint.h>
 
 #include "splash_begin_code.h"
 /* Set up for C definitions */
@@ -30,15 +31,15 @@ extern "C" {
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Splash_vertex
+  @brief    Splash_texture
 
-  The Splash vertex structure.
+  The texture struct
 \----------------------------------------------------------------------------*/
-typedef struct Splash_vertex {
-  SDL_Color color;    /**< The colour of the vertex */
-  Splash_vector2 pos; /**< The position of the vertex */
-  Splash_vector2 uv;  /**< The UV coords of the vertex */
-} Splash_vertex;
+typedef struct Splash_texture {
+  GLuint  texture;        /**< The texture */
+  int32_t texture_width;  /**< The texture width */
+  int32_t texture_height; /**< The texture height */
+} Splash_texture;
 
 
 /*---------------------------------------------------------------------------
@@ -46,16 +47,26 @@ typedef struct Splash_vertex {
  ---------------------------------------------------------------------------*/
 
 /*!--------------------------------------------------------------------------
-  @brief    Creates a Splash_vertex
-  @param    color   The color of the vertex
-  @param    pos     The pos of the vertex
-  @param    uv      The uv of the vertex
-  @return   returns a Splash_vertex
+  @brief    Creates a new Splash_texture
+  @param  path    Path to the texture including extention
+  @return   New Splash_texture otherwise NULL.
 
-  Creates and returns a Splash_vertex
+  Creates a new Splash_texture object destroy with splash_texture_destroy();
+  return a new object else null if unsuccessful
 
 \-----------------------------------------------------------------------------*/
-extern DLL_EXPORT Splash_vertex SPLASHCALL splash_vertex_create(SDL_Color color, Splash_vector2 pos, Splash_vector2 uv);
+extern DLL_EXPORT Splash_texture SPLASHCALL *splash_texture_create(char *path);
+
+
+/*!--------------------------------------------------------------------------
+  @brief    Destroy's the texture
+  @param  texture      The texture to destroy
+  @return  Void
+
+  Destroy's the texture
+
+\-----------------------------------------------------------------------------*/
+extern DLL_EXPORT void SPLASHCALL splash_texture_destroy(Splash_texture *texture);
 
 
 /* end C definitions */
